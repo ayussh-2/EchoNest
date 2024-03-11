@@ -9,6 +9,11 @@ function Login() {
             transition={{ duration: 1, ease: [0.2, 1, 0.2, 1] }}
             className="contain relative"
         >
+            <Link to="/">
+                <button className="top-10 left-5 absolute hover:opacity-75 duration-200 active:scale-90">
+                    <i class="fa-solid fa-circle-chevron-left text-2xl"></i>
+                </button>
+            </Link>
             <div className="flex items-center justify-center absolute top-3">
                 <img src={logo} className="w-32 h-32" />
             </div>

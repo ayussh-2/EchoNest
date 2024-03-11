@@ -1,13 +1,14 @@
 import React, { lazy, Suspense } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
-import NotFound from "./pages/NotFound";
-import Landing from "./pages/Landing";
+import { AnimatePresence } from "framer-motion";
+
 import Loading from "./pages/Loading";
-const Home = lazy(() => import("./pages/Home"));
+
+const Home = lazy(() => import("./pages/Landing"));
 const Login = lazy(() => import("./pages/Login"));
 const SignUp = lazy(() => import("./pages/SignUp"));
-
+const NotFound = lazy(() => import("./pages/NotFound"));
+const Player = lazy(() => import("./pages/Player"));
 function App() {
     let location = useLocation();
 
@@ -15,11 +16,10 @@ function App() {
         <AnimatePresence mode="wait">
             <Suspense fallback={<Loading />}>
                 <Routes location={location}>
-                    <Route path="/" element={<Landing />} />
-                    <Route path="/loading" element={<Loading />} />
-                    <Route path="/home" element={<Home />} />
+                    <Route path="/" element={<Home />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/signup" element={<SignUp />} />
+                    <Route path="/player" element={<Player />} />
                     <Route path="*" element={<NotFound />} />
                 </Routes>
             </Suspense>

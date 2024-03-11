@@ -9,11 +9,6 @@ function Loading() {
             className="contain"
         >
             <img src={logo} alt="" className="fadePulse" />
-            {/* <p className="text-xl ">Start listening here!</p>
-            <div className="flex items-center justify-between gap-5 my-10">
-                <button className="btn-main">Register</button>
-                <button className="btn-main">Sign in</button>
-            </div> */}
         </motion.div>
     );
 }
