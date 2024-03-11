@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.btn-main {
+    @apply bg-black text-white rounded-3xl px-10 py-5 hover:bg-opacity-80 active:scale-95 duration-200;
+}
+.contain {
+    @apply flex flex-col items-center justify-center h-screen bg-white  font-poppins px-5;
+}
+.input-main {
+    @apply rounded-3xl px-5 py-7 w-80 border-2 border-gray-300 focus:outline-none focus:border-2 focus:border-black duration-300;
+}
