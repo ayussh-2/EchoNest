@@ -11,3 +11,6 @@
 .input-main {
     @apply rounded-3xl px-5 py-7 w-80 border-2 border-gray-300 focus:outline-none focus:border-2 focus:border-black duration-300;
 }
+.landingLinks {
+    @apply italic tracking-tight duration-200;
+}
