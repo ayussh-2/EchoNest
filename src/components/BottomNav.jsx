@@ -2,7 +2,7 @@ import { useState } from "react";
 import BottomPlayer from "./BottomPlayer";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
-function BottomNav() {
+function BottomNav({ mainPlayer }) {
     const [showBottomPlayer, setShowBottomPlayer] = useState(false);
     function handleShowPlayer() {
         setShowBottomPlayer(!showBottomPlayer);
@@ -10,7 +10,9 @@ function BottomNav() {
     return (
         <>
             <AnimatePresence>
-                {showBottomPlayer && <BottomPlayer />}
+                {showBottomPlayer && (
+                    <BottomPlayer showMainPlayer={mainPlayer} />
+                )}
                 {/* <BottomNav /> */}
 
                 <motion.div

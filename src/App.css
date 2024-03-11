@@ -36,3 +36,11 @@
     transform: scaleX(1);
     transform-origin: bottom left;
 }
+
+.lyricBtn:active i {
+    transform: translateY(-5px);
+}
+
+.lyricBtn i {
+    transition: 0.3s;
+}

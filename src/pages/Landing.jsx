@@ -5,10 +5,15 @@ import Navbar from "../components/Navbar";
 import Carousel from "../components/Carousel";
 import Recommendations from "../components/Recommendations";
 import PlayNext from "../components/PlayNext";
+import MainPlayer from "../components/MainPlayer";
 function Landing() {
     const [activeTab, setActiveTab] = useState("recomm");
+    const [showPlayer, setShowPlayer] = useState(false);
     function handleTabs(tab) {
         setActiveTab(tab);
+    }
+    function handleShowplayer() {
+        setShowPlayer(!`showPlayer`);
     }
     return (
         <motion.div
@@ -21,7 +26,8 @@ function Landing() {
             <Carousel />
             <Recommendations active={activeTab} setActive={handleTabs} />
             <PlayNext />
-            <BottomNav />
+            {showPlayer && <MainPlayer />}
+            <BottomNav mainPlayer={handleShowplayer} />
         </motion.div>
     );
 }

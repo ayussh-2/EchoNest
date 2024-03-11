@@ -1,54 +1,96 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import mp3Audio from "../assets/audio.mp3";
 
 function PlayerControls() {
     const [isPlaying, setIsPlaying] = useState(false);
-    const [progress, setProgress] = useState(0);
+    const audioRef = useRef(null);
+    const [totalTime, setTotalTime] = useState(0);
+    const [currentTime, setCurrentTime] = useState(0);
 
-    const audio = new Audio(mp3Audio);
-
-    const togglePlay = () => {
-        if (isPlaying) {
-            audio.pause();
-        } else {
-            audio.play();
+    const playAudio = () => {
+        if (audioRef.current) {
+            audioRef.current.play();
         }
-        setIsPlaying(!isPlaying);
     };
 
+    const pauseAudio = () => {
+        if (audioRef.current) {
+            audioRef.current.pause();
+        }
+    };
+    //get audio state
     useEffect(() => {
-        const updateProgress = () => {
-            const percent = (audio.currentTime / audio.duration) * 100;
-            setProgress(percent);
+        if (isPlaying) {
+            playAudio();
+        } else {
+            pauseAudio();
+        }
+    }, [isPlaying]);
+
+    //get audio position
+    useEffect(() => {
+        const audioElement = audioRef.current;
+
+        const handleTimeUpdate = () => {
+            setCurrentTime(audioElement.currentTime);
         };
 
-        audio.addEventListener("timeupdate", updateProgress);
+        const handleLoadedMetadata = () => {
+            setTotalTime(audioElement.duration);
+        };
+
+        audioElement.addEventListener("timeupdate", handleTimeUpdate);
+        audioElement.addEventListener("loadedmetadata", handleLoadedMetadata);
 
         return () => {
-            audio.removeEventListener("timeupdate", updateProgress);
+            audioElement.removeEventListener("timeupdate", handleTimeUpdate);
+            audioElement.removeEventListener(
+                "loadedmetadata",
+                handleLoadedMetadata
+            );
         };
-    }, [audio]);
+    }, []);
+    const formatTime = (timeInSeconds) => {
+        const minutes = Math.floor(timeInSeconds / 60);
+        const seconds = Math.floor(timeInSeconds % 60);
+        return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+    };
+    const calculateBallPosition = () => {
+        return (currentTime / totalTime) * 100;
+    };
 
     return (
-        <div className="bg-white p-4 rounded-lg shadow-md w-80">
-            <audio className="w-full" controls>
+        <div className="mt-5 p-4 rounded-lg w-80">
+            <audio ref={audioRef} className="w-full hidden">
                 <source src={mp3Audio} type="audio/mp3" />
                 Your browser does not support the audio tag.
             </audio>
-
-            <div className="flex items-center mt-4">
-                <button
-                    className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-full"
-                    onClick={togglePlay}
-                >
-                    {isPlaying ? "Pause" : "Play"}
-                </button>
-                <div className="flex-1 h-4 bg-gray-300 ml-4 rounded-full">
+            <div className="mt-5 mb-10">
+                <div className="flex items-center justify-between">
+                    <p className="text-sm">{formatTime(currentTime)}</p>
+                    <p className="text-sm">{formatTime(totalTime)}</p>
+                </div>
+                <div className="bg-gray-500 my-5 w-full h-2 rounded-full flex items-center">
                     <div
-                        className="h-full bg-blue-500 rounded-full"
-                        style={{ width: `${progress}%` }}
+                        className="bg-black h-2 text-xs rounded-full"
+                        style={{ width: `${calculateBallPosition()}%` }}
                     ></div>
                 </div>
+            </div>
+            <div className="flex justify-evenly">
+                <button>
+                    <i class="fa-solid fa-backward text-black"></i>
+                </button>
+                <button onClick={() => setIsPlaying(!isPlaying)}>
+                    <i
+                        class={`bg-black rounded-full fa-solid fa-${
+                            isPlaying ? "pause" : "play"
+                        } text-white px-5 py-4`}
+                    ></i>
+                </button>
+                <button>
+                    <i class="fa-solid fa-forward text-black"></i>
+                </button>
             </div>
         </div>
     );
