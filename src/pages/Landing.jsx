@@ -19,6 +19,7 @@ function Landing() {
     const [loading, setLoading] = useState(true);
     const [songsArray, setSongsArray] = useState([]);
     const [recommendedSongs, setRecommendedSongs] = useState([]);
+    const [carouselSongs, setCarouselSongs] = useState([]);
     async function getSongs() {
         try {
             const q = query(collection(db, "audios"), limit(20));
@@ -30,6 +31,7 @@ function Landing() {
             });
             setSongsArray(res);
             setRecommendedSongs(generateRandomDigits(4, res.length));
+            setCarouselSongs(generateRandomDigits(5, res.length));
             console.log(res);
         } catch (error) {
             console.error("Error getting documents: ", error);
@@ -117,7 +119,10 @@ function Landing() {
                         transition={{ duration: 1, ease: [0.2, 1, 0.2, 1] }}
                     >
                         <Navbar />
-                        <Carousel />
+                        <Carousel
+                            songs={songsArray}
+                            carouselSongs={carouselSongs}
+                        />
                         <Recommendations
                             active={activeTab}
                             setActive={handleTabs}

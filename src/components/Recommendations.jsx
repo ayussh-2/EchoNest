@@ -48,7 +48,7 @@ function Recommendations({ active, setActive, recommendedSongs, songs }) {
                 >
                     {recommendedSongs.map((songIndex) => {
                         return (
-                            <Song
+                            <SongCard
                                 key={songIndex}
                                 title={songs[songIndex].title}
                                 artist={songs[songIndex].artist}
