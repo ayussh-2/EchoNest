@@ -20,6 +20,9 @@ function Landing() {
     const [songsArray, setSongsArray] = useState([]);
     const [recommendedSongs, setRecommendedSongs] = useState([]);
     const [carouselSongs, setCarouselSongs] = useState([]);
+    const [currIndex, setCurrIndex] = useState(0);
+    const [nextSongs, setNextSongs] = useState([]);
+    const [audio, setAudio] = useState(null);
     async function getSongs() {
         try {
             const q = query(collection(db, "audios"), limit(20));
@@ -29,10 +32,13 @@ function Landing() {
             querySnapshot.forEach((doc) => {
                 res.push(doc.data());
             });
+            console.log(res);
             setSongsArray(res);
             setRecommendedSongs(generateRandomDigits(4, res.length));
             setCarouselSongs(generateRandomDigits(5, res.length));
-            console.log(res);
+            setNextSongs(res.slice(currIndex + 1, currIndex + 4));
+
+            setAudio(res[currIndex].url);
         } catch (error) {
             console.error("Error getting documents: ", error);
         } finally {
@@ -40,8 +46,19 @@ function Landing() {
         }
     }
     useEffect(() => {
-        getSongs();
+        async function fetchSongs() {
+            await getSongs();
+        }
+        fetchSongs();
     }, []);
+
+    useEffect(() => {
+        setNextSongs(songsArray.slice(currIndex + 1, currIndex + 4));
+    }, [currIndex]);
+
+    function getAudioLink() {
+        return songsArray[currIndex].url;
+    }
 
     function generateRandomDigits(n, lim) {
         const randomDigits = [];
@@ -51,7 +68,6 @@ function Landing() {
         }
         return randomDigits;
     }
-
     const audioRef = useRef(null);
     const playAudio = () => {
         if (audioRef.current) {
@@ -107,6 +123,7 @@ function Landing() {
         <AnimatePresence>
             {loading && <Loading />}
             <motion.div
+                key={"landing"}
                 className={`px-5 font-poppins pb-2 ${loading && "hidden"}`}
                 initial={{ opacity: 0, y: "100vw" }}
                 animate={{ opacity: 1, y: 0 }}
@@ -114,6 +131,7 @@ function Landing() {
             >
                 {!showPlayer && (
                     <motion.div
+                        key={"landing2"}
                         initial={{ opacity: 0, y: "100vw" }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 1, ease: [0.2, 1, 0.2, 1] }}
@@ -129,13 +147,11 @@ function Landing() {
                             songs={songsArray}
                             recommendedSongs={recommendedSongs}
                         />
-                        <PlayNext />
+                        <PlayNext songs={nextSongs} />
                     </motion.div>
                 )}
-                <audio ref={audioRef} className="hidden">
-                    <source src={mp3Audio} type="audio/mp3" />
-                    Your browser does not support the audio tag.
-                </audio>
+                <audio ref={audioRef} className="hidden" src={audio}></audio>
+
                 {showPlayer && (
                     <MainPlayer
                         mainPlayer={handleShowplayer}
@@ -143,6 +159,7 @@ function Landing() {
                         isPlaying={isPlaying}
                         currentTime={currentTime}
                         totalTime={totalTime}
+                        song={songsArray[currIndex]}
                     />
                 )}
                 {!showPlayer && (
@@ -150,6 +167,7 @@ function Landing() {
                         mainPlayer={handleShowplayer}
                         handlePlayPause={handleAudioState}
                         isPlaying={isPlaying}
+                        song={songsArray[currIndex]}
                     />
                 )}
             </motion.div>

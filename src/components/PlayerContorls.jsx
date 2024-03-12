@@ -13,7 +13,7 @@ function PlayerControls({ musicState, currentTime, totalTime, isPlaying }) {
     };
 
     return (
-        <div className="mt-5 p-4 rounded-lg w-80">
+        <div className="mt-10 rounded-lg w-full">
             <div className="mt-5 mb-10">
                 <div className="flex items-center justify-between">
                     <p className="text-sm">{formatTime(currentTime)}</p>

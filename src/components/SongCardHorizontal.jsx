@@ -9,13 +9,13 @@ function SongCardHorizontal({ title, artist, bgCover, currentCardIndex }) {
     return (
         <motion.div
             key={currentCardIndex}
-            initial={{ opacity: 0, x: "100%" }}
-            animate={{ opacity: 1, x: "0%" }}
-            exit={{ opacity: 0, x: "-100%" }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
             transition={{ duration: 1 }}
             className="card my-10 bg-black text-white rounded-3xl flex p-5"
         >
-            <div className="w-2/3">
+            <div className="w-2/3 px-2">
                 {/* <p className="text-sm font-bold uppercase">{card.category}</p> */}
                 <h1 className="text-3xl capitalize">{limitedText(title, 2)}</h1>
                 <p className="text-sm uppercase">{limitedText(artist, 3)}</p>

@@ -12,6 +12,7 @@ function MainPlayer({
     isPlaying,
     currentTime,
     totalTime,
+    song,
 }) {
     // const [showLyrics, setShowLyrics] = useState(false);
     // function toggleLyrics() {
@@ -26,8 +27,8 @@ function MainPlayer({
                 className="py-10  font-poppins"
             >
                 <PlayerHeader goBack={mainPlayer} />
-                <AlbumCover />
-                <MusicDetails />
+                <AlbumCover albumCover={song.bgCover} />
+                <MusicDetails title={song.title} artist={song.artist} />
                 <PlayerControls
                     musicState={handlePlayPause}
                     currentTime={currentTime}
