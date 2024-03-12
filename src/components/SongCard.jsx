@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-function SongCard({ title, artist, bgCover }) {
+function SongCard({ title, artist, bgCover, play }) {
     function limitedText(title, limit) {
         const words = title.split(" ");
         const limitedTitle = words.slice(0, limit).join(" ");
@@ -8,9 +8,12 @@ function SongCard({ title, artist, bgCover }) {
     }
     return (
         <>
-            <div className="flex flex-col bg-black text-white rounded-lg p-3 overflow-hidden">
+            <div
+                className="flex flex-col bg-black text-white cursor-pointer rounded-lg p-3"
+                // onClick={play}
+            >
                 <div
-                    className="w-auto h-32 rounded-md "
+                    className="w-32 h-32 rounded-md"
                     style={{
                         backgroundImage: bgCover,
                         backgroundSize: "cover",

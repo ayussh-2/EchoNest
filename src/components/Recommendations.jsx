@@ -1,8 +1,15 @@
 import { motion } from "framer-motion";
 import SongCard from "./SongCard";
-function Recommendations({ active, setActive, recommendedSongs, songs }) {
+function Recommendations({
+    active,
+    setActive,
+    recommendedSongs,
+    songs,
+    playOnTap,
+}) {
     const artist = "";
     const title = "";
+    // console.log(recommendedSongs);
 
     return (
         <div className="my-5">
@@ -39,7 +46,6 @@ function Recommendations({ active, setActive, recommendedSongs, songs }) {
             </div>
             {active === "recomm" && (
                 <motion.div
-                    key={"recom"}
                     className="grid grid-cols-2 gap-3 overflow-x-hidden mt-10"
                     initial={{ opacity: 0, y: 50 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -53,7 +59,8 @@ function Recommendations({ active, setActive, recommendedSongs, songs }) {
                                 title={songs[songIndex].title}
                                 artist={songs[songIndex].artist}
                                 bgCover={songs[songIndex].bgCover}
-                                url={songs[songIndex].url}
+                                // url={songs[songIndex].url}
+                                // play={playOnTap(songIndex)}
                             />
                         );
                     })}
@@ -62,7 +69,6 @@ function Recommendations({ active, setActive, recommendedSongs, songs }) {
 
             {active === "playlists" && (
                 <motion.div
-                    key={"playlists"}
                     initial={{ opacity: 0, y: 50 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 50 }}

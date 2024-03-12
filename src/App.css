@@ -44,3 +44,16 @@
 .lyricBtn i {
     transition: 0.3s;
 }
+
+@keyframes fade {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.fade {
+    animation: fade 0.5s;
+}

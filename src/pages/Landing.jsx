@@ -46,10 +46,7 @@ function Landing() {
         }
     }
     useEffect(() => {
-        async function fetchSongs() {
-            await getSongs();
-        }
-        fetchSongs();
+        getSongs();
     }, []);
 
     useEffect(() => {
@@ -64,6 +61,7 @@ function Landing() {
         }
         return randomDigits;
     }
+
     const audioRef = useRef(null);
     const playAudio = () => {
         if (audioRef.current) {
@@ -94,7 +92,6 @@ function Landing() {
             pauseAudio();
         }
     }, [isPlaying]);
-
     //get audio position
     useEffect(() => {
         const audioElement = audioRef.current;
