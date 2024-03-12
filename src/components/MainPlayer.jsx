@@ -13,6 +13,8 @@ function MainPlayer({
     currentTime,
     totalTime,
     song,
+    playNext,
+    playPrev,
 }) {
     // const [showLyrics, setShowLyrics] = useState(false);
     // function toggleLyrics() {
@@ -34,6 +36,8 @@ function MainPlayer({
                     currentTime={currentTime}
                     totalTime={totalTime}
                     isPlaying={isPlaying}
+                    playNext={playNext}
+                    playPrev={playPrev}
                 />
                 {/* <Lyrics show={showLyrics} />
             {showLyrics && <p>showing lyrics</p>}

@@ -1,4 +1,11 @@
-function PlayerControls({ musicState, currentTime, totalTime, isPlaying }) {
+function PlayerControls({
+    musicState,
+    currentTime,
+    totalTime,
+    isPlaying,
+    playNext,
+    playPrev,
+}) {
     function handleMusicState() {
         musicState();
     }
@@ -27,7 +34,7 @@ function PlayerControls({ musicState, currentTime, totalTime, isPlaying }) {
                 </div>
             </div>
             <div className="flex justify-evenly">
-                <button>
+                <button onClick={playPrev}>
                     <i class="fa-solid fa-backward text-black"></i>
                 </button>
                 <button onClick={() => handleMusicState()}>
@@ -37,7 +44,7 @@ function PlayerControls({ musicState, currentTime, totalTime, isPlaying }) {
                         } text-white px-5 py-4`}
                     ></i>
                 </button>
-                <button>
+                <button onClick={playNext}>
                     <i class="fa-solid fa-forward text-black"></i>
                 </button>
             </div>

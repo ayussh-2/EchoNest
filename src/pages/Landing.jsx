@@ -56,10 +56,6 @@ function Landing() {
         setNextSongs(songsArray.slice(currIndex + 1, currIndex + 4));
     }, [currIndex]);
 
-    function getAudioLink() {
-        return songsArray[currIndex].url;
-    }
-
     function generateRandomDigits(n, lim) {
         const randomDigits = [];
         for (let i = 0; i < n; i++) {
@@ -79,6 +75,18 @@ function Landing() {
             audioRef.current.pause();
         }
     };
+    function playNext() {
+        if (currIndex === songsArray.length - 1) return setCurrIndex(0);
+        setCurrIndex((prev) => prev + 1);
+        setAudio(songsArray[currIndex + 1].url);
+        setIsPlaying(false);
+    }
+    function playPrev() {
+        if (currIndex === 0) return setCurrIndex(songsArray.length - 1);
+        setCurrIndex((prev) => prev - 1);
+        setAudio(songsArray[currIndex - 1].url);
+        setIsPlaying(false);
+    }
     useEffect(() => {
         if (isPlaying) {
             playAudio();
@@ -160,6 +168,8 @@ function Landing() {
                         currentTime={currentTime}
                         totalTime={totalTime}
                         song={songsArray[currIndex]}
+                        playNext={playNext}
+                        playPrev={playPrev}
                     />
                 )}
                 {!showPlayer && (
