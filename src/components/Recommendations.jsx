@@ -1,5 +1,10 @@
 import { motion } from "framer-motion";
-function Recommendations({ active, setActive }) {
+import SongCard from "./SongCard";
+function Recommendations({ active, setActive, recommendedSongs, songs }) {
+    const artist = "";
+    const title = "";
+    console.log(recommendedSongs);
+
     return (
         <div className="my-5">
             <div className="flex items-center justify-around gap-5 px-5 mb-10">
@@ -41,54 +46,20 @@ function Recommendations({ active, setActive }) {
                     exit={{ opacity: 0, y: 50 }}
                     transition={{ duration: 0.3 }}
                 >
-                    <>
-                        <div className="flex flex-col bg-black text-white rounded-lg p-3">
-                            <img
-                                src="https://img.freepik.com/free-vector/gradient-album-cover-template_23-2150597431.jpg"
-                                className="w-32 h-32 rounded-md"
-                                alt=""
+                    {recommendedSongs.map((songIndex) => {
+                        return (
+                            <Song
+                                key={songIndex}
+                                title={songs[songIndex].title}
+                                artist={songs[songIndex].artist}
+                                bgCover={songs[songIndex].bgCover}
+                                url={songs[songIndex].url}
                             />
-                            <div className="flex flex-col mt-2 px-1">
-                                <p className="font-bold">Silence</p>
-                                <p className="font-light">Dj Khaled</p>
-                            </div>
-                        </div>
-                        <div className="flex flex-col bg-black text-white rounded-lg p-3">
-                            <img
-                                src="https://img.freepik.com/free-vector/gradient-album-cover-template_23-2150597431.jpg"
-                                className="w-32 h-32 rounded-md"
-                                alt=""
-                            />
-                            <div className="flex flex-col mt-2 px-1">
-                                <p className="font-bold">Silence</p>
-                                <p className="font-light">Dj Khaled</p>
-                            </div>
-                        </div>
-                        <div className="flex flex-col bg-black text-white rounded-lg p-3">
-                            <img
-                                src="https://img.freepik.com/free-vector/gradient-album-cover-template_23-2150597431.jpg"
-                                className="w-32 h-32 rounded-md"
-                                alt=""
-                            />
-                            <div className="flex flex-col mt-2 px-1">
-                                <p className="font-bold">Silence</p>
-                                <p className="font-light">Dj Khaled</p>
-                            </div>
-                        </div>
-                        <div className="flex flex-col bg-black text-white rounded-lg p-3">
-                            <img
-                                src="https://img.freepik.com/free-vector/gradient-album-cover-template_23-2150597431.jpg"
-                                className="w-32 h-32 rounded-md"
-                                alt=""
-                            />
-                            <div className="flex flex-col mt-2 px-1">
-                                <p className="font-bold">Silence</p>
-                                <p className="font-light">Dj Khaled</p>
-                            </div>
-                        </div>
-                    </>
+                        );
+                    })}
                 </motion.div>
             )}
+
             {active === "playlists" && (
                 <motion.div
                     initial={{ opacity: 0, y: 50 }}

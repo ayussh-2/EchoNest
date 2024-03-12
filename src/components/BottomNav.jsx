@@ -3,7 +3,7 @@ import BottomPlayer from "./BottomPlayer";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 function BottomNav({ mainPlayer, handlePlayPause, isPlaying }) {
-    const [showBottomPlayer, setShowBottomPlayer] = useState(false);
+    const [showBottomPlayer, setShowBottomPlayer] = useState(true);
     function handleShowPlayer() {
         setShowBottomPlayer(!showBottomPlayer);
     }

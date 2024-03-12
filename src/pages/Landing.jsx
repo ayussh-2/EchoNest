@@ -1,5 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { db } from "../firebase/config";
+import { getDocs, query, limit, collection } from "firebase/firestore";
 import BottomNav from "../components/BottomNav";
 import Navbar from "../components/Navbar";
 import Carousel from "../components/Carousel";
@@ -7,19 +9,53 @@ import Recommendations from "../components/Recommendations";
 import PlayNext from "../components/PlayNext";
 import MainPlayer from "../components/MainPlayer";
 import mp3Audio from "../assets/audio.mp3";
+import Loading from "./Loading";
 function Landing() {
     const [activeTab, setActiveTab] = useState("recomm");
     const [showPlayer, setShowPlayer] = useState(false);
     const [isPlaying, setIsPlaying] = useState(false);
     const [totalTime, setTotalTime] = useState(0);
     const [currentTime, setCurrentTime] = useState(0);
+    const [loading, setLoading] = useState(true);
+    const [songsArray, setSongsArray] = useState([]);
+    const [recommendedSongs, setRecommendedSongs] = useState([]);
+    async function getSongs() {
+        try {
+            const q = query(collection(db, "audios"), limit(20));
+
+            const querySnapshot = await getDocs(q);
+            const res = [];
+            querySnapshot.forEach((doc) => {
+                res.push(doc.data());
+            });
+            setSongsArray(res);
+            setRecommendedSongs(generateRandomDigits(4, res.length));
+            console.log(res);
+        } catch (error) {
+            console.error("Error getting documents: ", error);
+        } finally {
+            setLoading(false);
+        }
+    }
+    useEffect(() => {
+        getSongs();
+    }, []);
+
+    function generateRandomDigits(n, lim) {
+        const randomDigits = [];
+        for (let i = 0; i < n; i++) {
+            const randomDigit = Math.floor(Math.random() * lim);
+            randomDigits.push(randomDigit);
+        }
+        return randomDigits;
+    }
+
     const audioRef = useRef(null);
     const playAudio = () => {
         if (audioRef.current) {
             audioRef.current.play();
         }
     };
-
     const pauseAudio = () => {
         if (audioRef.current) {
             audioRef.current.pause();
@@ -56,11 +92,9 @@ function Landing() {
             );
         };
     }, []);
-
     function handleAudioState() {
         setIsPlaying(!isPlaying);
     }
-
     function handleTabs(tab) {
         setActiveTab(tab);
     }
@@ -69,8 +103,9 @@ function Landing() {
     }
     return (
         <AnimatePresence>
+            {loading && <Loading />}
             <motion.div
-                className="px-5 font-poppins pb-2"
+                className={`px-5 font-poppins pb-2 ${loading && "hidden"}`}
                 initial={{ opacity: 0, y: "100vw" }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1, ease: [0.2, 1, 0.2, 1] }}
@@ -86,6 +121,8 @@ function Landing() {
                         <Recommendations
                             active={activeTab}
                             setActive={handleTabs}
+                            songs={songsArray}
+                            recommendedSongs={recommendedSongs}
                         />
                         <PlayNext />
                     </motion.div>
