@@ -1,7 +1,10 @@
-function PlayerHeader() {
+function PlayerHeader({ goBack }) {
     return (
         <div className="flex items-center justify-between">
-            <button className=" hover:opacity-75 duration-200 active:scale-90">
+            <button
+                className=" hover:opacity-75 duration-200 active:scale-90"
+                onClick={goBack}
+            >
                 <i class="fa-solid fa-circle-chevron-left text-2xl"></i>
             </button>
             Now Playing

@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-const BottomPlayer = ({ showMainPlayer }) => {
-    const [isPlaying, setIsPlaying] = useState(false);
+function BottomPlayer({ showMainPlayer, musicState, isPlaying }) {
     const [songName, setSongName] = useState("Song Name");
     const [artistName, setArtistName] = useState("Artist Name");
 
     const handlePlayPause = () => {
-        setIsPlaying(!isPlaying);
+        musicState();
     };
 
     return (
@@ -15,15 +14,14 @@ const BottomPlayer = ({ showMainPlayer }) => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, ease: [0.2, 1, 0.2, 1] }}
             exit={{ opacity: 0, y: "100vw" }}
-            className="flex items-center justify-between rounded-lg bg-black text-white p-5 mb-2"
-            onClick={showMainPlayer}
+            className="flex items-center justify-between rounded-lg bg-black text-white p-5 mb-2 cursor-pointer"
         >
-            <div className="song-info font-light">
+            <div className="song-info font-light" onClick={showMainPlayer}>
                 <h3 className="text-base">{songName}</h3>
                 <p className="text-sm">{artistName}</p>
             </div>
 
-            <button onClick={showMainPlayer}>
+            <button onClick={handlePlayPause}>
                 <i
                     class={`fa-solid fa-circle-${
                         isPlaying ? "pause" : "play"
@@ -33,6 +31,6 @@ const BottomPlayer = ({ showMainPlayer }) => {
             </button>
         </motion.div>
     );
-};
+}
 
 export default BottomPlayer;
