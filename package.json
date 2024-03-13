@@ -11,12 +11,16 @@
   },
   "dependencies": {
     "appwrite": "^14.0.0",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.0",
     "firebase": "^10.8.1",
     "framer-motion": "^11.0.8",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.22.2",
-    "react-spinners": "^0.13.8"
+    "react-spinners": "^0.13.8",
+    "tailwind-merge": "^2.2.1",
+    "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
     "@types/react": "^18.2.56",
