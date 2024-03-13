@@ -4,8 +4,9 @@ import PlayerHeader from "./PlayerHeader";
 import AlbumCover from "./AlbumCover";
 import MusicDetails from "./MusicDetails";
 import PlayerControls from "./PlayerContorls";
-import Lyrics from "./Lyrics";
-import LyricsBtn from "./LyricsBtn";
+// import Lyrics from "./Lyrics";
+// import LyricsBtn from "./LyricsBtn";
+
 function MainPlayer({
     mainPlayer,
     handlePlayPause,
@@ -15,6 +16,11 @@ function MainPlayer({
     song,
     playNext,
     playPrev,
+    loggedIn,
+    modal,
+    likeSong,
+    liked,
+    getUserLikedSongs,
 }) {
     // const [showLyrics, setShowLyrics] = useState(false);
     // function toggleLyrics() {
@@ -30,7 +36,15 @@ function MainPlayer({
             >
                 <PlayerHeader goBack={mainPlayer} />
                 <AlbumCover albumCover={song.bgCover} />
-                <MusicDetails title={song.title} artist={song.artist} />
+                <MusicDetails
+                    title={song.title}
+                    artist={song.artist}
+                    loggedIn={loggedIn}
+                    modal={modal}
+                    songId={song.songId}
+                    likeSong={likeSong}
+                    getUserLikedSongs={getUserLikedSongs}
+                />
                 <PlayerControls
                     musicState={handlePlayPause}
                     currentTime={currentTime}

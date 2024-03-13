@@ -9,7 +9,6 @@ function PlayerControls({
     function handleMusicState() {
         musicState();
     }
-
     const formatTime = (timeInSeconds) => {
         const minutes = Math.floor(timeInSeconds / 60);
         const seconds = Math.floor(timeInSeconds % 60);
@@ -35,11 +34,11 @@ function PlayerControls({
             </div>
             <div className="flex justify-evenly">
                 <button onClick={playPrev}>
-                    <i class="fa-solid fa-backward text-black"></i>
+                    <i className="fa-solid fa-backward text-black"></i>
                 </button>
                 <button onClick={() => handleMusicState()}>
                     <i
-                        class={`bg-black rounded-full fa-solid fa-${
+                        className={`bg-black rounded-full fa-solid fa-${
                             isPlaying ? "pause" : "play"
                         } text-white px-5 py-4`}
                     ></i>

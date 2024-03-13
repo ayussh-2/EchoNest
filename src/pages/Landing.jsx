@@ -1,7 +1,16 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { db, auth } from "../firebase/config";
-import { getDocs, query, limit, collection } from "firebase/firestore";
+import {
+    getDocs,
+    query,
+    limit,
+    collection,
+    doc,
+    arrayUnion,
+    updateDoc,
+    getDoc,
+} from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 
 import BottomNav from "../components/BottomNav";
@@ -12,6 +21,7 @@ import PlayNext from "../components/PlayNext";
 import MainPlayer from "../components/MainPlayer";
 
 import Loading from "./Loading";
+import Modal from "../components/Modal";
 function Landing() {
     const [activeTab, setActiveTab] = useState("recomm");
     const [showPlayer, setShowPlayer] = useState(false);
@@ -26,21 +36,25 @@ function Landing() {
     const [nextSongs, setNextSongs] = useState([]);
     const [audio, setAudio] = useState(null);
     const [loggedIn, setLoggedIn] = useState(false);
+    const [showModal, setShowModal] = useState(false);
+    const [modalContent, setModalContent] = useState("");
+    const [userId, setUserId] = useState(null);
+
     async function getSongs() {
         try {
             const q = query(collection(db, "audios"), limit(20));
-
             const querySnapshot = await getDocs(q);
             const res = [];
             querySnapshot.forEach((doc) => {
-                res.push(doc.data());
+                const data = doc.data();
+                data.songId = doc.id;
+                res.push(data);
             });
             console.log(res);
             setSongsArray(res);
             setRecommendedSongs(generateRandomDigits(4, res.length));
             setCarouselSongs(generateRandomDigits(5, res.length));
             setNextSongs(res.slice(currIndex + 1, currIndex + 4));
-
             setAudio(res[currIndex].url);
         } catch (error) {
             console.error("Error getting documents: ", error);
@@ -134,16 +148,50 @@ function Landing() {
             onAuthStateChanged(auth, async (user) => {
                 if (user) {
                     setLoggedIn(true);
-                    // console.log(user);
+                    setUserId(user.uid);
                 }
             });
         } catch (error) {
             console.log(error);
         }
     }
+    async function likeSong(songid) {
+        try {
+            const likesDocRef = doc(db, "likes", userId);
+            await updateDoc(likesDocRef, {
+                songs: arrayUnion(songid),
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    async function getUserLikedSongs() {
+        try {
+            const docRef = doc(db, "likes", userId);
+            const querySnapshot = await getDoc(docRef);
+            const userLikedSongs = [];
+
+            // console.log(querySnapshot.data().songs);
+            userLikedSongs.push(...querySnapshot.data().songs);
+            return userLikedSongs;
+        } catch (error) {
+            console.log(error);
+            return [];
+        }
+    }
+
+    function handleModal(msg) {
+        setShowModal(true);
+        setModalContent(msg);
+        setTimeout(() => {
+            setShowModal(false);
+        }, 1500);
+    }
+
     return (
         <AnimatePresence>
             {loading && <Loading />}
+            {showModal && <Modal>{modalContent}</Modal>}
             <motion.div
                 key={"landing"}
                 className={`px-5 font-poppins pb-2 ${loading && "hidden"}`}
@@ -184,6 +232,10 @@ function Landing() {
                         song={songsArray[currIndex]}
                         playNext={playNext}
                         playPrev={playPrev}
+                        loggedIn={loggedIn}
+                        modal={handleModal}
+                        likeSong={likeSong}
+                        getUserLikedSongs={getUserLikedSongs}
                     />
                 )}
                 {!showPlayer && (
