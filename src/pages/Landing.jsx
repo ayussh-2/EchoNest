@@ -10,6 +10,7 @@ import {
     arrayUnion,
     updateDoc,
     getDoc,
+    setDoc,
 } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 
@@ -165,6 +166,20 @@ function Landing() {
             console.log(error);
         }
     }
+
+    async function unlikeSong(songid) {
+        const likedSongs = await getUserLikedSongs();
+        const updatedLikedSongs = likedSongs.filter((id) => id !== songid);
+        try {
+            const res = await setDoc(doc(db, "likes", userId), {
+                songs: updatedLikedSongs,
+            });
+            console.log(songid);
+            console.log(res);
+        } catch (error) {
+            console.log(error);
+        }
+    }
     async function getUserLikedSongs() {
         try {
             const docRef = doc(db, "likes", userId);
@@ -236,6 +251,7 @@ function Landing() {
                         modal={handleModal}
                         likeSong={likeSong}
                         getUserLikedSongs={getUserLikedSongs}
+                        unlikeSong={unlikeSong}
                     />
                 )}
                 {!showPlayer && (

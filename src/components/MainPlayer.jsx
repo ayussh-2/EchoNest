@@ -19,8 +19,9 @@ function MainPlayer({
     loggedIn,
     modal,
     likeSong,
-    liked,
+
     getUserLikedSongs,
+    unlikeSong,
 }) {
     // const [showLyrics, setShowLyrics] = useState(false);
     // function toggleLyrics() {
@@ -44,6 +45,7 @@ function MainPlayer({
                     songId={song.songId}
                     likeSong={likeSong}
                     getUserLikedSongs={getUserLikedSongs}
+                    unlikeSong={unlikeSong}
                 />
                 <PlayerControls
                     musicState={handlePlayPause}

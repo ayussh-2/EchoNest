@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+
 function MusicDetails({
     title,
     artist,
@@ -7,6 +8,7 @@ function MusicDetails({
     songId,
     likeSong,
     getUserLikedSongs,
+    unlikeSong,
 }) {
     const [userLikedSongs, setUserLikedSongs] = useState([]);
     const [liked, setLiked] = useState(false);
@@ -16,7 +18,6 @@ function MusicDetails({
             if (loggedIn) {
                 const likedSongs = await getUserLikedSongs();
                 setUserLikedSongs(likedSongs);
-                console.log(likedSongs);
             }
         }
 
@@ -25,21 +26,28 @@ function MusicDetails({
 
     useEffect(() => {
         setLiked(userLikedSongs.includes(songId));
-    }, [songId]);
-    // const songIsLiked = userLikedSongs.includes(songId);
+    }, [userLikedSongs, songId]);
 
     function handleLike() {
         if (loggedIn) {
-            likeSong(songId);
+            if (userLikedSongs.includes(songId)) {
+                unlikeSong(songId);
+                setLiked(false);
+            } else {
+                likeSong(songId);
+                setLiked(true);
+            }
         } else {
             modal("Please login to like songs");
         }
     }
+
     function limitedText(title, limit) {
         const words = title.split(" ");
         const limitedTitle = words.slice(0, limit).join(" ");
         return words.length > limit ? `${limitedTitle} ...` : title;
     }
+
     return (
         <>
             <div className="flex items-center justify-between">
@@ -50,9 +58,9 @@ function MusicDetails({
                     </p>
                 </div>
                 <div>
-                    <button className=" pr-2" onClick={() => handleLike()}>
+                    <button className="pr-2" onClick={() => handleLike()}>
                         <i
-                            class={`fa-heart hover:text-red-500 duration-200 text-2xl active:scale-125 ${
+                            className={`fa-heart hover:text-red-500 duration-200 text-2xl active:scale-125 ${
                                 liked ? "fa-solid text-red-500" : "fa-regular"
                             }`}
                         ></i>
