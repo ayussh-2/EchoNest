@@ -39,6 +39,14 @@ function Login() {
             const errorMessage = error.message;
             console.log(errorCode, errorMessage);
             setStatus(errorMessage);
+        } finally {
+            setLoading(false);
+            if (status !== "") {
+                setShowModal(true);
+                setTimeout(() => {
+                    setShowModal(false);
+                }, 1500);
+            }
         }
     }
 
