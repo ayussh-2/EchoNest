@@ -43,18 +43,20 @@ function MusicDetails({
     }
 
     function limitedText(title, limit) {
-        const words = title.split(" ");
-        const limitedTitle = words.slice(0, limit).join(" ");
-        return words.length > limit ? `${limitedTitle} ...` : title;
+        if (title.length <= limit) {
+            return title;
+        } else {
+            return title.substring(0, limit) + "...";
+        }
     }
 
     return (
         <>
             <div className="flex items-center justify-between">
                 <div className="flex flex-col items-start justify-around px-5">
-                    <p className="text-2xl">{limitedText(title, 1)}</p>
+                    <p className="text-2xl">{limitedText(title, 15)}</p>
                     <p className="text-base text-gray-500">
-                        {limitedText(artist, 1)}
+                        {limitedText(artist, 12)}
                     </p>
                 </div>
                 <div>

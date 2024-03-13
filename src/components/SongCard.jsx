@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-function SongCard({ title, artist, bgCover, play }) {
+function SongCard({ title, artist, bgCover, playOnTap, songId }) {
     function limitedText(title, limit) {
         const words = title.split(" ");
         const limitedTitle = words.slice(0, limit).join(" ");
@@ -9,8 +9,8 @@ function SongCard({ title, artist, bgCover, play }) {
     return (
         <>
             <div
-                className="flex flex-col bg-black text-white cursor-pointer rounded-lg p-3 hover:bg-gray-100 hover:text-black transition duration-300 ease-in-out"
-                // onClick={play}
+                className="flex flex-col bg-black text-white cursor-pointer rounded-lg p-3 hover:bg-gray-100 hover:text-black active:scale-105 transition duration-300 ease-in-out"
+                onClick={() => playOnTap(songId)}
             >
                 <div
                     className="w-auto h-32 rounded-md"

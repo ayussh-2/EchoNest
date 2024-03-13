@@ -143,7 +143,17 @@ function Landing() {
     function handleShowplayer() {
         setShowPlayer(!showPlayer);
     }
-
+    function playOnTap(songId) {
+        const song = songsArray.find((obj) => obj.songId === songId);
+        console.log(song);
+        setCurrIndex(findSongIndex(songId));
+        setAudio(song.url);
+        setIsPlaying(false);
+    }
+    function findSongIndex(songId) {
+        const index = songsArray.findIndex((obj) => obj.songId === songId);
+        return index;
+    }
     async function checkUser() {
         try {
             onAuthStateChanged(auth, async (user) => {
@@ -156,6 +166,7 @@ function Landing() {
             console.log(error);
         }
     }
+
     async function likeSong(songid) {
         try {
             const likesDocRef = doc(db, "likes", userId);
@@ -166,7 +177,6 @@ function Landing() {
             console.log(error);
         }
     }
-
     async function unlikeSong(songid) {
         const likedSongs = await getUserLikedSongs();
         const updatedLikedSongs = likedSongs.filter((id) => id !== songid);
@@ -225,14 +235,16 @@ function Landing() {
                         <Carousel
                             songs={songsArray}
                             carouselSongs={carouselSongs}
+                            playOnTap={playOnTap}
                         />
                         <Recommendations
                             active={activeTab}
                             setActive={handleTabs}
                             songs={songsArray}
                             recommendedSongs={recommendedSongs}
+                            playOnTap={playOnTap}
                         />
-                        <PlayNext songs={nextSongs} />
+                        <PlayNext songs={nextSongs} playOnTap={playOnTap} />
                     </motion.div>
                 )}
                 <audio ref={audioRef} className="hidden" src={audio}></audio>

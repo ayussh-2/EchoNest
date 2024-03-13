@@ -10,7 +10,13 @@ function BottomPlayer({
     const handlePlayPause = () => {
         musicState();
     };
-
+    function limitedText(title, limit) {
+        if (title.length <= limit) {
+            return title;
+        } else {
+            return title.substring(0, limit) + "...";
+        }
+    }
     return (
         <motion.div
             initial={{ opacity: 0, y: "100vw" }}
@@ -20,8 +26,8 @@ function BottomPlayer({
             className="flex items-center justify-between rounded-lg bg-black text-white p-5 mb-2 cursor-pointer"
         >
             <div className="song-info font-light" onClick={showMainPlayer}>
-                <h3 className="text-base">{title}</h3>
-                <p className="text-sm">{artist}</p>
+                <h3 className="text-base">{limitedText(title, 20)}</h3>
+                <p className="text-sm">{limitedText(artist, 18)}</p>
             </div>
 
             <button onClick={handlePlayPause}>

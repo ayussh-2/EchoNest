@@ -59,8 +59,8 @@ function Recommendations({
                                 title={songs[songIndex].title}
                                 artist={songs[songIndex].artist}
                                 bgCover={songs[songIndex].bgCover}
-                                // url={songs[songIndex].url}
-                                // play={playOnTap(songIndex)}
+                                playOnTap={playOnTap}
+                                songId={songs[songIndex].songId}
                             />
                         );
                     })}

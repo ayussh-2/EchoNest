@@ -3,9 +3,8 @@ function Navbar() {
     return (
         <div className="navbar flex items-center justify-between">
             <i className="fa-solid fa-magnifying-glass text-xl"></i>
-            <div className="flex items-center mx-10">
+            <div className="flex items-center">
                 <img src={logo} alt="" className="w-20 h-20" />
-                <p>Echo Nest</p>
             </div>
             <i className="fa-solid fa-ellipsis-vertical ml-5 text-xl hover:drop-shadow-xl duration-100"></i>
         </div>

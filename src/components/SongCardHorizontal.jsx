@@ -1,5 +1,12 @@
 import { motion, AnimatePresence } from "framer-motion";
-function SongCardHorizontal({ title, artist, bgCover, currentCardIndex }) {
+function SongCardHorizontal({
+    title,
+    artist,
+    bgCover,
+    currentCardIndex,
+    songId,
+    playOnTap,
+}) {
     function limitedText(title, limit) {
         if (title.length <= limit) {
             return title;
@@ -15,10 +22,10 @@ function SongCardHorizontal({ title, artist, bgCover, currentCardIndex }) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 1 }}
-            className="card my-10 bg-black text-white rounded-3xl flex p-5"
+            className="card my-10 bg-black text-white rounded-3xl flex p-5 cursor-pointer hover:bg-gray-100 hover:text-black active:scale-105 transition duration-300 ease-in-out"
+            onClick={() => playOnTap(songId)}
         >
             <div className="w-2/3 px-2">
-                {/* <p className="text-sm font-bold uppercase">{card.category}</p> */}
                 <h1 className="text-3xl capitalize">
                     {limitedText(title, 10)}
                 </h1>

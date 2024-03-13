@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import SongCardHorizontal from "./SongCardHorizontal";
 
-function Carousel({ songs }) {
+function Carousel({ songs, playOnTap }) {
     const random = Math.floor(Math.random() * songs.length);
     const [index, setIndex] = useState(random);
 
@@ -26,6 +26,8 @@ function Carousel({ songs }) {
                 bgCover={songs[index].bgCover}
                 url={songs[index].url}
                 currentCardIndex={index}
+                playOnTap={playOnTap}
+                songId={songs[index].songId}
             />
         </div>
     );
