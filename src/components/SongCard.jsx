@@ -9,11 +9,11 @@ function SongCard({ title, artist, bgCover, play }) {
     return (
         <>
             <div
-                className="flex flex-col bg-black text-white cursor-pointer rounded-lg p-3"
+                className="flex flex-col bg-black text-white cursor-pointer rounded-lg p-3 hover:bg-gray-100 hover:text-black transition duration-300 ease-in-out"
                 // onClick={play}
             >
                 <div
-                    className="w-32 h-32 rounded-md"
+                    className="w-auto h-32 rounded-md"
                     style={{
                         backgroundImage: bgCover,
                         backgroundSize: "cover",

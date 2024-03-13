@@ -2,7 +2,7 @@ import { useState } from "react";
 import BottomPlayer from "./BottomPlayer";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
-function BottomNav({ mainPlayer, handlePlayPause, isPlaying, song }) {
+function BottomNav({ mainPlayer, handlePlayPause, isPlaying, song, loggedIn }) {
     const [showBottomPlayer, setShowBottomPlayer] = useState(true);
     function handleShowPlayer() {
         setShowBottomPlayer(!showBottomPlayer);
@@ -40,9 +40,13 @@ function BottomNav({ mainPlayer, handlePlayPause, isPlaying, song }) {
                     <button className="bottom-btn">
                         <i className="fa-solid fa-heart hover:text-red-600 duration-200"></i>
                     </button>
-                    <Link to={"/login"}>
+                    <Link to={loggedIn ? "/logout" : "/login"}>
                         <button className="bottom-btn">
-                            <i className="fa-solid fa-user "></i>
+                            <i
+                                className={`fa-solid fa-${
+                                    loggedIn ? "right-from-bracket" : "user"
+                                }  `}
+                            ></i>
                         </button>
                     </Link>
                 </motion.div>

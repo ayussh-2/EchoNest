@@ -57,3 +57,15 @@
 .fade {
     animation: fade 0.5s;
 }
+/* Hide the scrollbar for all elements */
+::-webkit-scrollbar {
+    display: none;
+}
+
+/* Optional: ensure smooth scrolling even without scrollbar */
+html {
+    overflow: -moz-scrollbars-none;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    scroll-behavior: smooth;
+}

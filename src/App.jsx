@@ -3,6 +3,7 @@ import { Route, Routes, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 
 import Loading from "./pages/Loading";
+import Logout from "./pages/Logout";
 
 const Home = lazy(() => import("./pages/Landing"));
 const Login = lazy(() => import("./pages/Login"));
@@ -19,7 +20,7 @@ function App() {
                     <Route path="/" element={<Home />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/signup" element={<SignUp />} />
-
+                    <Route path="/logout" element={<Logout />} />
                     <Route path="*" element={<NotFound />} />
                 </Routes>
             </Suspense>

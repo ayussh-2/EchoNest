@@ -1,14 +1,16 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { db } from "../firebase/config";
+import { db, auth } from "../firebase/config";
 import { getDocs, query, limit, collection } from "firebase/firestore";
+import { onAuthStateChanged } from "firebase/auth";
+
 import BottomNav from "../components/BottomNav";
 import Navbar from "../components/Navbar";
 import Carousel from "../components/Carousel";
 import Recommendations from "../components/Recommendations";
 import PlayNext from "../components/PlayNext";
 import MainPlayer from "../components/MainPlayer";
-import mp3Audio from "../assets/audio.mp3";
+
 import Loading from "./Loading";
 function Landing() {
     const [activeTab, setActiveTab] = useState("recomm");
@@ -23,6 +25,7 @@ function Landing() {
     const [currIndex, setCurrIndex] = useState(0);
     const [nextSongs, setNextSongs] = useState([]);
     const [audio, setAudio] = useState(null);
+    const [loggedIn, setLoggedIn] = useState(false);
     async function getSongs() {
         try {
             const q = query(collection(db, "audios"), limit(20));
@@ -47,6 +50,7 @@ function Landing() {
     }
     useEffect(() => {
         getSongs();
+        checkUser();
     }, []);
 
     useEffect(() => {
@@ -124,6 +128,19 @@ function Landing() {
     function handleShowplayer() {
         setShowPlayer(!showPlayer);
     }
+
+    async function checkUser() {
+        try {
+            onAuthStateChanged(auth, async (user) => {
+                if (user) {
+                    setLoggedIn(true);
+                    // console.log(user);
+                }
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
     return (
         <AnimatePresence>
             {loading && <Loading />}
@@ -175,6 +192,7 @@ function Landing() {
                         handlePlayPause={handleAudioState}
                         isPlaying={isPlaying}
                         song={songsArray[currIndex]}
+                        loggedIn={loggedIn}
                     />
                 )}
             </motion.div>
