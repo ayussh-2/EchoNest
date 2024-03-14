@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from "react";
+import React, { lazy, Suspense, useEffect, useState } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 
@@ -12,17 +12,45 @@ const NotFound = lazy(() => import("./pages/NotFound"));
 
 function App() {
     let location = useLocation();
-
+    const [isPhone, setIsPhone] = useState(false);
+    function isMobile() {
+        if (window.innerWidth <= 768) {
+            setIsPhone(true);
+        } else {
+            setIsPhone(false);
+        }
+    }
+    useEffect(() => {
+        isMobile();
+    }, []);
     return (
         <AnimatePresence mode="wait">
             <Suspense fallback={<Loading />}>
-                <Routes location={location}>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/signup" element={<SignUp />} />
-                    <Route path="/logout" element={<Logout />} />
-                    <Route path="*" element={<NotFound />} />
-                </Routes>
+                {isPhone ? (
+                    <Routes location={location}>
+                        <Route path="/" element={<Home />} />
+                        <Route path="/login" element={<Login />} />
+                        <Route path="/signup" element={<SignUp />} />
+                        <Route path="/logout" element={<Logout />} />
+                        <Route path="*" element={<NotFound />} />
+                    </Routes>
+                ) : (
+                    <div class="flex flex-col items-center justify-center h-screen w-screen bg-gray-200">
+                        <p class="font-light text-center text-3xl">
+                            This works only on smartphones for now, but stay
+                            tuned for updates!
+                        </p>
+                        <footer class="mt-8">
+                            <a
+                                href="https://github.com/ayussh-2/"
+                                target="_blank"
+                                class="text-blue-600 hover:text-blue-900 uppercase"
+                            >
+                                Contact Developer
+                            </a>
+                        </footer>
+                    </div>
+                )}
             </Suspense>
         </AnimatePresence>
     );
