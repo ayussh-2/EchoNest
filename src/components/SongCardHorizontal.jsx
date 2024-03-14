@@ -16,13 +16,13 @@ function SongCardHorizontal({
     }
 
     return (
-        <motion.div
+        <div
             key={currentCardIndex}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 1 }}
-            className="card my-10 bg-black text-white rounded-3xl flex p-5 cursor-pointer hover:bg-gray-100 hover:text-black active:scale-105 transition duration-300 ease-in-out"
+            // initial={{ opacity: 0 }}
+            // animate={{ opacity: 1 }}
+            // exit={{ opacity: 0 }}
+            // transition={{ duration: 1 }}
+            className="card my-10 bg-black text-white rounded-3xl flex p-5 cursor-pointer hover:bg-gray-100 hover:text-black active:scale-105 fade transition duration-300 ease-in-out"
             onClick={() => playOnTap(songId)}
         >
             <div className="w-2/3 px-2">
@@ -43,7 +43,7 @@ function SongCardHorizontal({
                     ></div>
                 </div>
             </div>
-        </motion.div>
+        </div>
     );
 }
 

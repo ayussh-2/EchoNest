@@ -1,6 +1,6 @@
 import logo from "../assets/logo.png";
 import { AnimatePresence, motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
     setPersistence,
     signInWithEmailAndPassword,
@@ -9,12 +9,14 @@ import {
 import { auth } from "../firebase/config";
 import { useState } from "react";
 import Modal from "../components/Modal";
+
 function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [showModal, setShowModal] = useState(false);
     const [status, setStatus] = useState("");
     const [loading, setLoading] = useState(false);
+    let navigate = useNavigate();
 
     async function loginWithEmail() {
         if (email === "" || password === "") {
@@ -33,7 +35,8 @@ function Login() {
                 password
             );
             console.log(userDetails.user);
-            window.location.href = "/";
+
+            navigate("/");
         } catch (error) {
             const errorCode = error.code;
             const errorMessage = error.message;

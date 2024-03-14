@@ -1,6 +1,6 @@
 import logo from "../assets/logo.png";
 import { AnimatePresence, motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { auth } from "../firebase/config";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { useEffect, useState } from "react";
@@ -14,6 +14,8 @@ function SignUp() {
     const [status, setStatus] = useState("");
     const [accountCreated, setAccountCreated] = useState(false);
     const [name, setName] = useState("");
+    let navigate = useNavigate();
+
     async function createAccount() {
         if (email === "" || password === "" || name === "") {
             setStatus("Please fill in all the fields!");
@@ -54,7 +56,8 @@ function SignUp() {
     useEffect(() => {
         setTimeout(() => {
             if (accountCreated) {
-                window.location.href = "/login";
+                // window.location.href = "/login";
+                navigate("/login");
             }
         }, 1700);
     }, [accountCreated]);

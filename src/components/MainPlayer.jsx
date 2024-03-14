@@ -8,7 +8,6 @@ import PlayerControls from "./PlayerContorls";
 // import LyricsBtn from "./LyricsBtn";
 
 function MainPlayer({
-    mainPlayer,
     handlePlayPause,
     isPlaying,
     currentTime,

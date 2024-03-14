@@ -3,12 +3,13 @@ import { Route, Routes, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 
 import Loading from "./pages/Loading";
-import Logout from "./pages/Logout";
+
+import NotFound from "./pages/NotFound";
 
 const Home = lazy(() => import("./pages/Landing"));
 const Login = lazy(() => import("./pages/Login"));
 const SignUp = lazy(() => import("./pages/SignUp"));
-const NotFound = lazy(() => import("./pages/NotFound"));
+const Logout = lazy(() => import("./pages/Logout"));
 
 function App() {
     let location = useLocation();
