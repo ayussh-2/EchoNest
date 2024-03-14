@@ -22,7 +22,7 @@ function Likes({ getUserLikedSongs, getSongsArray, isLoading, playOnTap }) {
     }, []);
 
     return (
-        <div className="">
+        <div className="h-screen">
             <h1 className="font-bold text-3xl text-center mt-20">LIKED ONES</h1>
             <div className="my-10">
                 {/* <button className="btn-main" onClick={() => getLikedSongs()}>
@@ -30,9 +30,11 @@ function Likes({ getUserLikedSongs, getSongsArray, isLoading, playOnTap }) {
                 </button> */}
 
                 {songs.length === 0 ? (
-                    <h2 className="text-center font-light text-2xl my-20">
-                        You havent liked any song!!
-                    </h2>
+                    <div className="contain">
+                        <h2 className="text-center font-light text-2xl my-20">
+                            You havent liked any song!!
+                        </h2>
+                    </div>
                 ) : (
                     songs.map((song) => {
                         return (

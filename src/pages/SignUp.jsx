@@ -36,7 +36,6 @@ function SignUp() {
             const nameUpdate = await updateProfile(userDetails.user, {
                 displayName: name,
             });
-            console.log(nameUpdate);
             setStatus("Account Created!");
             setAccountCreated(true);
         } catch (error) {

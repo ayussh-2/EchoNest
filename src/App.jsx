@@ -5,7 +5,7 @@ import { AnimatePresence } from "framer-motion";
 import Loading from "./pages/Loading";
 
 import NotFound from "./pages/NotFound";
-
+import SearchModal from "./components/Search";
 const Home = lazy(() => import("./pages/Landing"));
 const Login = lazy(() => import("./pages/Login"));
 const SignUp = lazy(() => import("./pages/SignUp"));
@@ -33,6 +33,7 @@ function App() {
                         <Route path="/login" element={<Login />} />
                         <Route path="/signup" element={<SignUp />} />
                         <Route path="/logout" element={<Logout />} />
+                        <Route path="search" element={<SearchModal />} />
                         <Route path="*" element={<NotFound />} />
                     </Routes>
                 ) : (

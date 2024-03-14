@@ -24,7 +24,7 @@ import MainPlayer from "../components/MainPlayer";
 import Likes from "../components/Likes";
 import Loading from "./Loading";
 import Modal from "../components/Modal";
-import { data } from "autoprefixer";
+import Search from "../components/Search";
 function Landing() {
     const [activeTab, setActiveTab] = useState("recomm");
     const [showPlayer, setShowPlayer] = useState(false);
@@ -43,6 +43,7 @@ function Landing() {
     const [modalContent, setModalContent] = useState("");
     const [userId, setUserId] = useState(null);
     const [currentTab, setCurrentTab] = useState("home");
+    const [showSearch, setShowSearch] = useState(false);
     async function getSongs() {
         try {
             const q = query(collection(db, "audios"), limit(20));
@@ -172,9 +173,15 @@ function Landing() {
     async function likeSong(songid) {
         try {
             const likesDocRef = doc(db, "likes", userId);
-            await updateDoc(likesDocRef, {
-                songs: arrayUnion(songid),
-            });
+            // Check if the document exists
+            const docSnap = await getDoc(likesDocRef);
+            if (!docSnap.exists()) {
+                await setDoc(likesDocRef, { songs: [songid] });
+            } else {
+                await updateDoc(likesDocRef, {
+                    songs: arrayUnion(songid),
+                });
+            }
         } catch (error) {
             console.log(error);
         }
@@ -234,7 +241,6 @@ function Landing() {
     function switchTabs(tab) {
         setCurrentTab(tab);
     }
-
     function handleModal(msg) {
         setShowModal(true);
         setModalContent(msg);
@@ -242,12 +248,14 @@ function Landing() {
             setShowModal(false);
         }, 1500);
     }
-
+    function handleSearch() {
+        setShowSearch(true);
+    }
     return (
         <AnimatePresence>
             {loading && <Loading />}
             {showModal && <Modal>{modalContent}</Modal>}
-
+            {showSearch && <Search playOnTap={playOnTap} />}
             <motion.div
                 key={"landing"}
                 className={`px-5 font-poppins pb-2 ${loading && "hidden"}`}
@@ -262,7 +270,10 @@ function Landing() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 1, ease: [0.2, 1, 0.2, 1] }}
                     >
-                        <Navbar />
+                        <Navbar
+                            handleSearch={handleSearch}
+                            playOnTap={playOnTap}
+                        />
                         <Carousel
                             songs={songsArray}
                             carouselSongs={carouselSongs}
