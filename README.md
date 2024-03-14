@@ -73,6 +73,3 @@ For any questions or suggestions, feel free to reach out to me at [ayushatschool
 
 Project Link: [https://github.com/ayussh-2/EchoNest](https://github.com/ayussh-2/EchoNest)
 
-```
-
-```
