@@ -40,7 +40,7 @@ function Search({ playOnTap, songs }) {
                 {/* <button onClick={handleSearch}>Search</button> */}
 
                 {searchResults.length > 0 ? (
-                    <div className="mt-5 h-[300px] overflow-y-hidden overflow-scroll w-full">
+                    <div className="mt-5 h-[400px] overflow-x-hidden overflow-scroll rounded-3xl w-full">
                         {searchResults.map((song, index) => (
                             <SongList
                                 key={index}

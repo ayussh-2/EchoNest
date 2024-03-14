@@ -25,6 +25,7 @@ import Likes from "../components/Likes";
 import Loading from "./Loading";
 import Modal from "../components/Modal";
 import Search from "../components/Search";
+import Playlist from "../components/Playlist";
 function Landing() {
     const [activeTab, setActiveTab] = useState("recomm");
     const [showPlayer, setShowPlayer] = useState(false);
@@ -44,6 +45,8 @@ function Landing() {
     const [userId, setUserId] = useState(null);
     const [currentTab, setCurrentTab] = useState("home");
     const [showSearch, setShowSearch] = useState(false);
+    const [playlists, setPlaylists] = useState([]);
+    const [playlist, setPlaylist] = useState();
 
     async function getSongs() {
         try {
@@ -55,7 +58,7 @@ function Landing() {
                 data.songId = doc.id;
                 res.push(data);
             });
-            console.log(res);
+            // console.log(res);
             setSongsArray(res);
             setRecommendedSongs(generateRandomDigits(4, res.length));
             setCarouselSongs(generateRandomDigits(5, res.length));
@@ -70,6 +73,7 @@ function Landing() {
     useEffect(() => {
         getSongs();
         checkUser();
+        getPlaylists();
     }, []);
 
     useEffect(() => {
@@ -250,6 +254,31 @@ function Landing() {
             return [];
         }
     }
+    async function getPlaylists() {
+        try {
+            const q = query(collection(db, "echoNestPlaylists"));
+            const querySnapshot = await getDocs(q);
+            const res = [];
+            querySnapshot.forEach((doc) => {
+                const data = doc.data();
+                data.playlistId = doc.id;
+                res.push(data);
+            });
+            console.log(res);
+            // return res;
+            setPlaylists(res);
+        } catch (error) {
+            console.error("Error getting documents: ", error);
+            return [];
+        }
+    }
+    function selectPlaylist(playlistId) {
+        const foundPlaylist = playlists.find(
+            (playlist) => playlist.playlistId === playlistId
+        );
+        setPlaylist(foundPlaylist);
+        setCurrentTab("playlist");
+    }
 
     function isLoading(set) {
         setLoading(set);
@@ -267,11 +296,13 @@ function Landing() {
     function handleSearch() {
         setShowSearch(!showSearch);
     }
+
     return (
         <AnimatePresence>
             {loading && <Loading />}
             {showModal && <Modal>{modalContent}</Modal>}
             {showSearch && <Search playOnTap={playOnTap} songs={songsArray} />}
+
             <motion.div
                 key={"landing"}
                 className={`px-5 font-poppins pb-2 ${loading && "hidden"}`}
@@ -302,6 +333,8 @@ function Landing() {
                             songs={songsArray}
                             recommendedSongs={recommendedSongs}
                             playOnTap={playOnTap}
+                            playlists={playlists}
+                            selectPlaylist={selectPlaylist}
                         />
                         <PlayNext songs={nextSongs} playOnTap={playOnTap} />
                     </motion.div>
@@ -331,6 +364,14 @@ function Landing() {
                         getUserLikedSongs={getUserLikedSongs}
                         unlikeSong={unlikeSong}
                         switchTabs={switchTabs}
+                    />
+                )}
+                {currentTab === "playlist" && (
+                    <Playlist
+                        playlist={playlist}
+                        isLoading={isLoading}
+                        playOnTap={playOnTap}
+                        getSongsArray={getSongsArray}
                     />
                 )}
                 {currentTab !== "main" && (

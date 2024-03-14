@@ -1,16 +1,15 @@
 import { motion } from "framer-motion";
 import SongCard from "./SongCard";
+import PlaylistCard from "./PlaylistCard";
 function Recommendations({
     active,
     setActive,
     recommendedSongs,
     songs,
     playOnTap,
+    playlists,
+    selectPlaylist,
 }) {
-    const artist = "";
-    const title = "";
-    // console.log(recommendedSongs);
-
     return (
         <div className="my-5">
             <div className="flex items-center justify-around gap-5 px-5 mb-10">
@@ -32,17 +31,6 @@ function Recommendations({
                 >
                     Playlists
                 </button>
-
-                {/* <button
-                    className={`landingLinks hover-underline-animation ${
-                        active === "favourites"
-                            ? "border-b-2 border-b-black"
-                            : ""
-                    }`}
-                    onClick={() => setActive("favourites")}
-                >
-                    Favourites
-                </button> */}
             </div>
             {active === "recomm" && (
                 <motion.div
@@ -73,90 +61,26 @@ function Recommendations({
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 50 }}
                     transition={{ duration: 0.3 }}
+                    className="h-[600px] overflow-x-hidden overflow-scroll rounded-3xl mt-10"
                 >
-                    <div className="flex justify-between items-center mb-10 px-5">
+                    {/* <div className="flex justify-between items-center mb-10 px-5">
                         <p className="">Favourite Playlists</p>
                         <button className="bg-black px-3 py-1 text-white rounded-xl text-sm hover:bg-opacity-80 active:scale-95 duration-200">
                             See More
                         </button>
-                    </div>
-                    <div className="card mt-5 bg-black text-white rounded-3xl flex p-5 cursor-pointer">
-                        <div className="w-2/3 flex flex-col justify-between items-start">
-                            <div>
-                                <p className="text-sm font-bold uppercase ">
-                                    ROMANCE
-                                </p>
-                                <h1 className="text-3xl capitalize ">
-                                    Feel{" "}
-                                    <span className="text-red-500">Loved</span>
-                                </h1>
-                            </div>
-                            <button className="text-sm uppercase hover:opacity-40 duration-200">
-                                Save to playlists
-                            </button>
-                        </div>
-                        <div className="w-1/3">
-                            <div className="overflow-hidden  ">
-                                <img
-                                    src="https://d1csarkz8obe9u.cloudfront.net/posterpreviews/love-song-mixtape-album-cover-template-design-250a66b33422287542e2690b437f881b_screen.jpg?ts=1635176340"
-                                    className="w-32 h-32 rounded-md"
-                                    alt=""
-                                />
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="card mt-5 bg-black text-white rounded-3xl flex p-5 cursor-pointer">
-                        <div className="w-2/3 flex flex-col justify-between items-start">
-                            <div>
-                                <p className="text-sm font-bold uppercase ">
-                                    ROMANCE
-                                </p>
-                                <h1 className="text-3xl capitalize ">
-                                    Feel{" "}
-                                    <span className="text-red-500">Loved</span>
-                                </h1>
-                            </div>
-                            <button className="text-sm uppercase hover:opacity-40 duration-200">
-                                Save to playlists
-                            </button>
-                        </div>
-                        <div className="w-1/3">
-                            <div className="overflow-hidden  ">
-                                <img
-                                    src="https://d1csarkz8obe9u.cloudfront.net/posterpreviews/love-song-mixtape-album-cover-template-design-250a66b33422287542e2690b437f881b_screen.jpg?ts=1635176340"
-                                    className="w-32 h-32 rounded-md"
-                                    alt=""
-                                />
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="card mt-5 bg-black text-white rounded-3xl flex p-5 cursor-pointer">
-                        <div className="w-2/3 flex flex-col justify-between items-start">
-                            <div>
-                                <p className="text-sm font-bold uppercase ">
-                                    ROMANCE
-                                </p>
-                                <h1 className="text-3xl capitalize ">
-                                    Feel{" "}
-                                    <span className="text-red-500">Loved</span>
-                                </h1>
-                            </div>
-                            <button className="text-sm uppercase hover:opacity-40 duration-200">
-                                Save to playlists
-                            </button>
-                        </div>
-                        <div className="w-1/3">
-                            <div className="overflow-hidden  ">
-                                <img
-                                    src="https://d1csarkz8obe9u.cloudfront.net/posterpreviews/love-song-mixtape-album-cover-template-design-250a66b33422287542e2690b437f881b_screen.jpg?ts=1635176340"
-                                    className="w-32 h-32 rounded-md"
-                                    alt=""
-                                />
-                            </div>
-                        </div>
-                    </div>
+                    </div> */}
+                    {playlists.map((playlist) => {
+                        return (
+                            <PlaylistCard
+                                key={playlist.playlistId}
+                                playlistId={playlist.playlistId}
+                                title={playlist.title}
+                                mood={playlist.mood}
+                                selectPlaylist={selectPlaylist}
+                            />
+                        );
+                    })}
+                    <PlaylistCard />
                 </motion.div>
             )}
             {/* {active === "favourites" && (
