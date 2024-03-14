@@ -44,9 +44,10 @@ function Landing() {
     const [userId, setUserId] = useState(null);
     const [currentTab, setCurrentTab] = useState("home");
     const [showSearch, setShowSearch] = useState(false);
+
     async function getSongs() {
         try {
-            const q = query(collection(db, "audios"), limit(20));
+            const q = query(collection(db, "audios"));
             const querySnapshot = await getDocs(q);
             const res = [];
             querySnapshot.forEach((doc) => {
@@ -100,12 +101,18 @@ function Landing() {
         setCurrIndex((prev) => prev + 1);
         setAudio(songsArray[currIndex + 1].url);
         setIsPlaying(false);
+        setTimeout(() => {
+            setIsPlaying(true);
+        }, 10);
     }
     function playPrev() {
         if (currIndex === 0) return setCurrIndex(songsArray.length - 1);
         setCurrIndex((prev) => prev - 1);
         setAudio(songsArray[currIndex - 1].url);
         setIsPlaying(false);
+        setTimeout(() => {
+            setIsPlaying(true);
+        }, 10);
     }
     useEffect(() => {
         if (isPlaying) {
@@ -147,11 +154,20 @@ function Landing() {
         setShowPlayer(!showPlayer);
     }
     function playOnTap(songId) {
+        // setIsPlaying(false);
         const song = songsArray.find((obj) => obj.songId === songId);
-        console.log(song);
+        // console.log(song);
+        setIsPlaying(false);
         setCurrIndex(findSongIndex(songId));
         setAudio(song.url);
-        setIsPlaying(false);
+        setShowSearch(false);
+        setTimeout(() => {
+            setIsPlaying(true);
+        }, 10);
+        // if(showSearch){
+        //     setShowSearch(false);
+        // }
+        // console.log("Playing!");
     }
     function findSongIndex(songId) {
         const index = songsArray.findIndex((obj) => obj.songId === songId);
@@ -249,13 +265,13 @@ function Landing() {
         }, 1500);
     }
     function handleSearch() {
-        setShowSearch(true);
+        setShowSearch(!showSearch);
     }
     return (
         <AnimatePresence>
             {loading && <Loading />}
             {showModal && <Modal>{modalContent}</Modal>}
-            {showSearch && <Search playOnTap={playOnTap} />}
+            {showSearch && <Search playOnTap={playOnTap} songs={songsArray} />}
             <motion.div
                 key={"landing"}
                 className={`px-5 font-poppins pb-2 ${loading && "hidden"}`}
@@ -273,6 +289,7 @@ function Landing() {
                         <Navbar
                             handleSearch={handleSearch}
                             playOnTap={playOnTap}
+                            handleModal={handleModal}
                         />
                         <Carousel
                             songs={songsArray}

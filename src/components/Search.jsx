@@ -1,34 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { collection, getDocs } from "firebase/firestore";
+import { motion } from "framer-motion";
 import SongList from "./SongList";
-import { db } from "../firebase/config";
-function Search({ playOnTap }) {
+
+function Search({ playOnTap, songs }) {
     const [searchInput, setSearchInput] = useState("");
     const [searchResults, setSearchResults] = useState([]);
-
     const handleSearch = async () => {
-        // console.log("searching");
-        try {
-            const audiosRef = collection(db, "audios");
-            const querySnapshot = await getDocs(audiosRef);
-            const results = [];
-            querySnapshot.forEach((doc) => {
-                const data = doc.data();
-                if (searchInput !== "") {
-                    if (
-                        data.title
-                            .toLowerCase()
-                            .includes(searchInput.toLowerCase())
-                    ) {
-                        results.push(data);
-                    }
-                }
-            });
-            console.log(results);
-            setSearchResults(results);
-        } catch (error) {
-            console.error("Error searching for songs:", error);
-        }
+        const results = [];
+        songs.forEach((song) => {
+            if (song.title.toLowerCase().includes(searchInput.toLowerCase())) {
+                results.push(song);
+            }
+        });
+        // console.log(results);
+        setSearchResults(results);
     };
 
     useEffect(() => {
@@ -37,7 +22,13 @@ function Search({ playOnTap }) {
         }
     }, [searchInput]);
     return (
-        <div className="bg-black bg-opacity-50 text-black p-10 flex items-center justify-center h-full w-screen z-20 absolute">
+        <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+            className="bg-black bg-opacity-80 text-black p-10 flex items-center justify-center h-full w-screen z-20 absolute"
+        >
             <div className="flex flex-col items-center justify-center bg-white p-10 w-full rounded-xl">
                 <input
                     type="text"
@@ -49,7 +40,7 @@ function Search({ playOnTap }) {
                 {/* <button onClick={handleSearch}>Search</button> */}
 
                 {searchResults.length > 0 ? (
-                    <div className="mt-5 w-full">
+                    <div className="mt-5 h-[300px] overflow-y-hidden overflow-scroll w-full">
                         {searchResults.map((song, index) => (
                             <SongList
                                 key={index}
@@ -64,7 +55,7 @@ function Search({ playOnTap }) {
                     <h1 className="font-poppins mt-10">No Results found!</h1>
                 )}
             </div>
-        </div>
+        </motion.div>
     );
 }
 
