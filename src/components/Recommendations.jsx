@@ -33,7 +33,7 @@ function Recommendations({
                     Playlists
                 </button>
 
-                <button
+                {/* <button
                     className={`landingLinks hover-underline-animation ${
                         active === "favourites"
                             ? "border-b-2 border-b-black"
@@ -42,7 +42,7 @@ function Recommendations({
                     onClick={() => setActive("favourites")}
                 >
                     Favourites
-                </button>
+                </button> */}
             </div>
             {active === "recomm" && (
                 <motion.div
@@ -74,6 +74,12 @@ function Recommendations({
                     exit={{ opacity: 0, y: 50 }}
                     transition={{ duration: 0.3 }}
                 >
+                    <div className="flex justify-between items-center mb-10 px-5">
+                        <p className="">Favourite Playlists</p>
+                        <button className="bg-black px-3 py-1 text-white rounded-xl text-sm hover:bg-opacity-80 active:scale-95 duration-200">
+                            See More
+                        </button>
+                    </div>
                     <div className="card mt-5 bg-black text-white rounded-3xl flex p-5 cursor-pointer">
                         <div className="w-2/3 flex flex-col justify-between items-start">
                             <div>
@@ -153,7 +159,7 @@ function Recommendations({
                     </div>
                 </motion.div>
             )}
-            {active === "favourites" && (
+            {/* {active === "favourites" && (
                 <motion.div
                     initial={{ opacity: 0, y: 50 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -293,7 +299,7 @@ function Recommendations({
                         </div>
                     </div>
                 </motion.div>
-            )}
+            )} */}
         </div>
     );
 }
