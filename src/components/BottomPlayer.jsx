@@ -6,6 +6,7 @@ function BottomPlayer({
     isPlaying,
     title,
     artist,
+    switchTabs,
 }) {
     const handlePlayPause = () => {
         musicState();
@@ -25,7 +26,10 @@ function BottomPlayer({
             exit={{ opacity: 0, y: "100vw" }}
             className="flex items-center justify-between rounded-lg bg-black text-white p-5 mb-2 cursor-pointer"
         >
-            <div className="song-info font-light" onClick={showMainPlayer}>
+            <div
+                className="song-info font-light"
+                onClick={() => switchTabs("main")}
+            >
                 <h3 className="text-base">{limitedText(title, 20)}</h3>
                 <p className="text-sm">{limitedText(artist, 18)}</p>
             </div>

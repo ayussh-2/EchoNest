@@ -2,7 +2,14 @@ import { useState } from "react";
 import BottomPlayer from "./BottomPlayer";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
-function BottomNav({ mainPlayer, handlePlayPause, isPlaying, song, loggedIn }) {
+function BottomNav({
+    mainPlayer,
+    handlePlayPause,
+    isPlaying,
+    song,
+    loggedIn,
+    switchTabs,
+}) {
     const [showBottomPlayer, setShowBottomPlayer] = useState(true);
     function handleShowPlayer() {
         setShowBottomPlayer(!showBottomPlayer);
@@ -19,6 +26,7 @@ function BottomNav({ mainPlayer, handlePlayPause, isPlaying, song, loggedIn }) {
                         isPlaying={isPlaying}
                         title={song.title}
                         artist={song.artist}
+                        switchTabs={switchTabs}
                     />
                 )}
                 <motion.div
@@ -28,7 +36,10 @@ function BottomNav({ mainPlayer, handlePlayPause, isPlaying, song, loggedIn }) {
                     transition={{ duration: 1, ease: [0.2, 1, 0.2, 1] }}
                     className="flex items-center justify-between rounded-lg bg-black text-white py-5 px-5"
                 >
-                    <button className="bottom-btn">
+                    <button
+                        className="bottom-btn"
+                        onClick={() => switchTabs("home")}
+                    >
                         <i className="fa-solid fa-house hover:opacity-95 "></i>
                     </button>
                     <button className="bottom-btn">
@@ -37,8 +48,11 @@ function BottomNav({ mainPlayer, handlePlayPause, isPlaying, song, loggedIn }) {
                             onClick={() => handleShowPlayer()}
                         ></i>
                     </button>
-                    <button className="bottom-btn">
-                        <i className="fa-solid fa-heart hover:text-red-600 duration-200"></i>
+                    <button
+                        className="active:scale-125 duration-300"
+                        onClick={() => switchTabs("likes")}
+                    >
+                        <i className="fa-solid fa-heart hover:text-red-500 duration-200"></i>
                     </button>
                     <Link to={loggedIn ? "/logout" : "/login"}>
                         <button className="bottom-btn">

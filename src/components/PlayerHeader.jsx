@@ -1,9 +1,9 @@
-function PlayerHeader({ goBack }) {
+function PlayerHeader({ switchTabs }) {
     return (
         <div className="flex items-center justify-between">
             <button
                 className=" hover:opacity-75 duration-200 active:scale-90"
-                onClick={goBack}
+                onClick={() => switchTabs("home")}
             >
                 <i class="fa-solid fa-circle-chevron-left text-2xl"></i>
             </button>

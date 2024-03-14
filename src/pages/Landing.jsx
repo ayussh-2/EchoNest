@@ -11,6 +11,7 @@ import {
     updateDoc,
     getDoc,
     setDoc,
+    where,
 } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 
@@ -20,9 +21,10 @@ import Carousel from "../components/Carousel";
 import Recommendations from "../components/Recommendations";
 import PlayNext from "../components/PlayNext";
 import MainPlayer from "../components/MainPlayer";
-
+import Likes from "../components/Likes";
 import Loading from "./Loading";
 import Modal from "../components/Modal";
+import { data } from "autoprefixer";
 function Landing() {
     const [activeTab, setActiveTab] = useState("recomm");
     const [showPlayer, setShowPlayer] = useState(false);
@@ -40,7 +42,7 @@ function Landing() {
     const [showModal, setShowModal] = useState(false);
     const [modalContent, setModalContent] = useState("");
     const [userId, setUserId] = useState(null);
-
+    const [currentTab, setCurrentTab] = useState("home");
     async function getSongs() {
         try {
             const q = query(collection(db, "audios"), limit(20));
@@ -195,14 +197,42 @@ function Landing() {
             const docRef = doc(db, "likes", userId);
             const querySnapshot = await getDoc(docRef);
             const userLikedSongs = [];
-
             // console.log(querySnapshot.data().songs);
             userLikedSongs.push(...querySnapshot.data().songs);
+
             return userLikedSongs;
         } catch (error) {
             console.log(error);
             return [];
         }
+    }
+    async function getSongsArray(songIdArr) {
+        try {
+            const songArr = [];
+            for (const songId of songIdArr) {
+                const docRef = doc(db, "audios", songId);
+                const docSnapshot = await getDoc(docRef);
+                if (docSnapshot.exists()) {
+                    const data = docSnapshot.data();
+                    data.songId = songId;
+                    songArr.push(data);
+                } else {
+                    console.log(`Document with ID ${songId} does not exist.`);
+                }
+            }
+            console.log(songArr);
+            return songArr;
+        } catch (err) {
+            console.error("Error getting songs:", err);
+            return [];
+        }
+    }
+
+    function isLoading(set) {
+        setLoading(set);
+    }
+    function switchTabs(tab) {
+        setCurrentTab(tab);
     }
 
     function handleModal(msg) {
@@ -217,6 +247,7 @@ function Landing() {
         <AnimatePresence>
             {loading && <Loading />}
             {showModal && <Modal>{modalContent}</Modal>}
+
             <motion.div
                 key={"landing"}
                 className={`px-5 font-poppins pb-2 ${loading && "hidden"}`}
@@ -224,7 +255,7 @@ function Landing() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1, ease: [0.2, 1, 0.2, 1] }}
             >
-                {!showPlayer && (
+                {currentTab === "home" && (
                     <motion.div
                         key={"landing2"}
                         initial={{ opacity: 0, y: "100vw" }}
@@ -248,8 +279,15 @@ function Landing() {
                     </motion.div>
                 )}
                 <audio ref={audioRef} className="hidden" src={audio}></audio>
-
-                {showPlayer && (
+                {currentTab === "likes" && (
+                    <Likes
+                        getUserLikedSongs={getUserLikedSongs}
+                        getSongsArray={getSongsArray}
+                        isLoading={isLoading}
+                        playOnTap={playOnTap}
+                    />
+                )}
+                {currentTab === "main" && (
                     <MainPlayer
                         mainPlayer={handleShowplayer}
                         handlePlayPause={handleAudioState}
@@ -264,15 +302,17 @@ function Landing() {
                         likeSong={likeSong}
                         getUserLikedSongs={getUserLikedSongs}
                         unlikeSong={unlikeSong}
+                        switchTabs={switchTabs}
                     />
                 )}
-                {!showPlayer && (
+                {currentTab !== "main" && (
                     <BottomNav
                         mainPlayer={handleShowplayer}
                         handlePlayPause={handleAudioState}
                         isPlaying={isPlaying}
                         song={songsArray[currIndex]}
                         loggedIn={loggedIn}
+                        switchTabs={switchTabs}
                     />
                 )}
             </motion.div>

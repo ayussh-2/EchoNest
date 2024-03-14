@@ -19,7 +19,7 @@ function MainPlayer({
     loggedIn,
     modal,
     likeSong,
-
+    switchTabs,
     getUserLikedSongs,
     unlikeSong,
 }) {
@@ -35,7 +35,7 @@ function MainPlayer({
                 transition={{ duration: 1, ease: [0.2, 1, 0.2, 1] }}
                 className="py-10  font-poppins"
             >
-                <PlayerHeader goBack={mainPlayer} />
+                <PlayerHeader switchTabs={switchTabs} />
                 <AlbumCover albumCover={song.bgCover} />
                 <MusicDetails
                     title={song.title}
