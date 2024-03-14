@@ -26,7 +26,7 @@ function Playlist({ getSongsArray, isLoading, playOnTap, playlist }) {
             <h1 className="font-bold text-3xl text-center mt-20">
                 {playlist.title}
             </h1>
-            <div className="my-10">
+            <div className="contain">
                 {/* <button className="btn-main" onClick={() => getLikedSongs()}>
                     fetch liked songs
                 </button> */}

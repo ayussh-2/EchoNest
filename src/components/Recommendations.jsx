@@ -80,7 +80,6 @@ function Recommendations({
                             />
                         );
                     })}
-                    <PlaylistCard />
                 </motion.div>
             )}
             {/* {active === "favourites" && (
