@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 function SongCard({ title, artist, bgCover, playOnTap, songId }) {
     function limitedText(title, limit) {
         const words = title.split(" ");

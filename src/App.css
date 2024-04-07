@@ -88,8 +88,8 @@ html {
         opacity: 0;
     }
 }
-.carousel {
+/* .carousel {
     display: flex;
     overflow: hidden;
     animation: carousel 5s cubic-bezier(0.075, 0.82, 0.165, 1);
-}
+} */

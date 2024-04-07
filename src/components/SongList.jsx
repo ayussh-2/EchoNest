@@ -8,7 +8,7 @@ function SongList({ title, artist, playOnTap, songId }) {
     }
     return (
         <li
-            className="flex justify-between bg-gray-200 py-3 px-5 items-center rounded-xl my-2 hover:cursor-pointer hover:bg-black hover:text-white transition duration-300 ease-in-out "
+            className="flex justify-between bg-gray-200 py-3 px-5 items-center rounded-xl my-2 hover:cursor-pointer active:bg-black active:text-white transition duration-300 ease-in-out active:scale-105"
             onClick={() => playOnTap(songId)}
         >
             <div className="flex flex-col">

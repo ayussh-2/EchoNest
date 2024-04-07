@@ -1,4 +1,3 @@
-import { motion, AnimatePresence } from "framer-motion";
 function SongCardHorizontal({
     title,
     artist,

@@ -4,8 +4,8 @@ import PlayerHeader from "./PlayerHeader";
 import AlbumCover from "./AlbumCover";
 import MusicDetails from "./MusicDetails";
 import PlayerControls from "./PlayerContorls";
-// import Lyrics from "./Lyrics";
-// import LyricsBtn from "./LyricsBtn";
+import Lyrics from "./Lyrics";
+import LyricsBtn from "./LyricsBtn";
 
 function MainPlayer({
     handlePlayPause,
@@ -22,10 +22,10 @@ function MainPlayer({
     getUserLikedSongs,
     unlikeSong,
 }) {
-    // const [showLyrics, setShowLyrics] = useState(false);
-    // function toggleLyrics() {
-    //     setShowLyrics((prev) => !prev);
-    // }
+    const [showLyrics, setShowLyrics] = useState(false);
+    function toggleLyrics() {
+        setShowLyrics((prev) => !prev);
+    }
     return (
         <AnimatePresence>
             <motion.div
@@ -54,9 +54,9 @@ function MainPlayer({
                     playNext={playNext}
                     playPrev={playPrev}
                 />
-                {/* <Lyrics show={showLyrics} />
-            {showLyrics && <p>showing lyrics</p>}
-            <LyricsBtn handleLyrics={toggleLyrics} /> */}
+                {/* <Lyrics show={showLyrics} /> */}
+                {showLyrics && <p>showing lyrics</p>}
+                <LyricsBtn handleLyrics={toggleLyrics} />
             </motion.div>
         </AnimatePresence>
     );

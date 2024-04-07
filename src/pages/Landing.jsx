@@ -4,14 +4,12 @@ import { db, auth } from "../firebase/config";
 import {
     getDocs,
     query,
-    limit,
     collection,
     doc,
     arrayUnion,
     updateDoc,
     getDoc,
     setDoc,
-    where,
 } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 
@@ -35,7 +33,7 @@ function Landing() {
     const [loading, setLoading] = useState(true);
     const [songsArray, setSongsArray] = useState([]);
     const [recommendedSongs, setRecommendedSongs] = useState([]);
-    const [carouselSongs, setCarouselSongs] = useState([]);
+    const [carouselSong, setCarouselSong] = useState(0);
     const [currIndex, setCurrIndex] = useState(0);
     const [nextSongs, setNextSongs] = useState([]);
     const [audio, setAudio] = useState(null);
@@ -78,6 +76,7 @@ function Landing() {
 
     useEffect(() => {
         setNextSongs(songsArray.slice(currIndex + 1, currIndex + 4));
+        setCarouselSong(genRandomNumber(songsArray.length));
     }, [currIndex]);
 
     function generateRandomDigits(n, lim) {
@@ -264,7 +263,7 @@ function Landing() {
                 data.playlistId = doc.id;
                 res.push(data);
             });
-            console.log(res);
+            // console.log(res);
             // return res;
             setPlaylists(res);
         } catch (error) {
@@ -296,7 +295,9 @@ function Landing() {
     function handleSearch() {
         setShowSearch(!showSearch);
     }
-
+    function genRandomNumber(lim) {
+        return Math.floor(Math.random() * lim);
+    }
     return (
         <AnimatePresence>
             {loading && <Loading />}
@@ -323,8 +324,7 @@ function Landing() {
                             handleModal={handleModal}
                         />
                         <Carousel
-                            songs={songsArray}
-                            carouselSongs={carouselSongs}
+                            song={songsArray[carouselSong]}
                             playOnTap={playOnTap}
                         />
                         <Recommendations

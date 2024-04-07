@@ -38,7 +38,7 @@ function Playlist({ getSongsArray, isLoading, playOnTap, playlist }) {
                         </h2>
                     </div>
                 ) : (
-                    <div className="w-full h-[500px] overflow-x-hidden overflow-scroll rounded-3xl">
+                    <div className="w-full h-[600px] overflow-x-hidden overflow-scroll rounded-3xl">
                         {songs.map((song) => {
                             return (
                                 <SongList
