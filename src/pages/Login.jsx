@@ -106,31 +106,31 @@ function Login() {
                     </div>
                 </div>
 
-                <div className="flex items-center justify-between gap-5">
-                    <button
-                        className="btn-main mt-5 w-auto flex items-center justify-center "
-                        onClick={loginWithEmail}
-                    >
-                        {loading ? (
-                            <PuffLoader color="#fff" size={30} />
-                        ) : (
-                            <span className="fade">Login</span>
-                        )}
-                    </button>
+                <button
+                    className="btn-main mt-5 w-auto flex items-center justify-center "
+                    onClick={loginWithEmail}
+                >
+                    {loading ? (
+                        <PuffLoader color="#fff" size={30} />
+                    ) : (
+                        <span className="fade">Login</span>
+                    )}
+                </button>
 
-                    <button
-                        className="btn-main mt-5 w-auto flex items-center justify-center "
-                        onClick={loginWithGoogle}
-                    >
-                        {loading ? (
-                            <PuffLoader color="#fff" size={30} />
-                        ) : (
-                            <span className="fade">
-                                Login with <i class="fa-brands fa-google"></i>
-                            </span>
-                        )}
-                    </button>
-                </div>
+                <button
+                    className="btn-main mt-5 w-auto flex items-center justify-center "
+                    onClick={loginWithGoogle}
+                >
+                    {loading ? (
+                        <PuffLoader color="#fff" size={30} />
+                    ) : (
+                        <span className="fade">
+                            Sign in with&nbsp;&nbsp;
+                            <i class="fa-brands fa-google"></i>
+                        </span>
+                    )}
+                </button>
+
                 <div className="flex items-end justify-end">
                     <Link to="/signup">
                         <button className="mt-5 hover:opacity-70 duration-200">

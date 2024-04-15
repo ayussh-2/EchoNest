@@ -6,23 +6,18 @@ import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { PuffLoader } from "react-spinners";
 import Modal from "../components/Modal";
+import toast from "react-hot-toast";
 function SignUp() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
-    const [showModal, setShowModal] = useState(false);
-    const [status, setStatus] = useState("");
     const [accountCreated, setAccountCreated] = useState(false);
     const [name, setName] = useState("");
     let navigate = useNavigate();
 
     async function createAccount() {
         if (email === "" || password === "" || name === "") {
-            setStatus("Please fill in all the fields!");
-            setShowModal(true);
-            setTimeout(() => {
-                setShowModal(false);
-            }, 1500);
+            toast("Please fill in all the fields!");
             return;
         }
         setLoading(true);
@@ -36,19 +31,15 @@ function SignUp() {
             const nameUpdate = await updateProfile(userDetails.user, {
                 displayName: name,
             });
-            setStatus("Account Created!");
+            toast.success("Account Created!");
             setAccountCreated(true);
         } catch (error) {
             const errorCode = error.code;
             const errorMessage = error.message;
             console.log(errorCode, errorMessage);
-            setStatus(errorMessage);
+            toast.error(errorMessage);
         } finally {
             setLoading(false);
-            setShowModal(true);
-            setTimeout(() => {
-                setShowModal(false);
-            }, 1500);
         }
     }
 
@@ -63,10 +54,6 @@ function SignUp() {
 
     return (
         <>
-            <AnimatePresence>
-                {showModal && <Modal>{status}</Modal>}
-            </AnimatePresence>
-
             {/* {loading && (
                 <div className="flex fade items-center justify-center w-screen h-screen z-20 absolute bg-black bg-opacity-80">
                     {" "}
