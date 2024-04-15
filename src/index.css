@@ -16,5 +16,5 @@
 }
 
 .bottom-btn {
-    @apply hover:opacity-65 duration-200 active:scale-125;
+    @apply hover:opacity-65 duration-200 active:scale-125 flex items-center flex-col gap-2;
 }

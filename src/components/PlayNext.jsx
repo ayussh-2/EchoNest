@@ -1,7 +1,7 @@
 import React from "react";
 import SongList from "./SongList";
 
-function PlayNext({ songs, playOnTap }) {
+function PlayNext({ songs, playOnTap, isMobile }) {
     return (
         <div className="mt-10">
             <h1 className="text-2xl font-semibold">Playing Next</h1>
@@ -13,6 +13,7 @@ function PlayNext({ songs, playOnTap }) {
                         artist={song.artist}
                         playOnTap={playOnTap}
                         songId={song.songId}
+                        isMobile={isMobile}
                     />
                 ))}
             </ol>

@@ -22,8 +22,12 @@ function PlayerControls({
         <div className="mt-10 rounded-lg w-full">
             <div className="mt-5 mb-10">
                 <div className="flex items-center justify-between">
-                    <p className="text-sm">{formatTime(currentTime)}</p>
-                    <p className="text-sm">{formatTime(totalTime)}</p>
+                    <p className="text-sm md:text-base">
+                        {formatTime(currentTime)}
+                    </p>
+                    <p className="text-sm md:text-base">
+                        {formatTime(totalTime)}
+                    </p>
                 </div>
                 <div className="bg-gray-500 my-5 w-full h-2 rounded-full flex items-center">
                     <div
@@ -34,17 +38,17 @@ function PlayerControls({
             </div>
             <div className="flex justify-evenly">
                 <button onClick={playPrev}>
-                    <i className="fa-solid fa-backward text-black"></i>
+                    <i className="fa-solid fa-backward text-black md:text-2xl"></i>
                 </button>
                 <button onClick={() => handleMusicState()}>
                     <i
-                        className={`bg-black rounded-full fa-solid fa-${
-                            isPlaying ? "pause" : "play"
-                        } text-white px-5 py-4`}
+                        className={`  fa-solid fa-circle-${
+                            isPlaying ? "pause " : "play"
+                        } text-black px-5 py-4 text-5xl`}
                     ></i>
                 </button>
                 <button onClick={playNext}>
-                    <i class="fa-solid fa-forward text-black"></i>
+                    <i class="fa-solid fa-forward text-black md:text-2xl"></i>
                 </button>
             </div>
         </div>

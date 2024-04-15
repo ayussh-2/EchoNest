@@ -22,7 +22,7 @@ function Playlist({ getSongsArray, isLoading, playOnTap, playlist }) {
     }, []);
 
     return (
-        <div className="h-screen">
+        <div className="h-screen md:px-20">
             <h1 className="font-bold text-3xl text-center mt-20">
                 {playlist.title}
             </h1>

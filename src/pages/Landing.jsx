@@ -24,7 +24,8 @@ import Loading from "./Loading";
 import Modal from "../components/Modal";
 import Search from "../components/Search";
 import Playlist from "../components/Playlist";
-function Landing() {
+import Footer from "../components/Footer";
+function Landing({ isMobile }) {
     const [activeTab, setActiveTab] = useState("recomm");
     const [showPlayer, setShowPlayer] = useState(false);
     const [isPlaying, setIsPlaying] = useState(false);
@@ -58,8 +59,7 @@ function Landing() {
             });
             // console.log(res);
             setSongsArray(res);
-            setRecommendedSongs(generateRandomDigits(4, res.length));
-            setCarouselSongs(generateRandomDigits(5, res.length));
+            setRecommendedSongs(generateRandomDigits(8, res.length));
             setNextSongs(res.slice(currIndex + 1, currIndex + 4));
             setAudio(res[currIndex].url);
         } catch (error) {
@@ -302,17 +302,26 @@ function Landing() {
         <AnimatePresence>
             {loading && <Loading />}
             {showModal && <Modal>{modalContent}</Modal>}
-            {showSearch && <Search playOnTap={playOnTap} songs={songsArray} />}
+            {showSearch && (
+                <Search
+                    playOnTap={playOnTap}
+                    toggleSearch={handleSearch}
+                    songs={songsArray}
+                />
+            )}
 
             <motion.div
                 key={"landing"}
-                className={`px-5 font-poppins pb-2 ${loading && "hidden"}`}
+                className={`px-5 md:px-20 font-poppins pb-2 ${
+                    loading && "hidden"
+                }`}
                 initial={{ opacity: 0, y: "100vw" }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1, ease: [0.2, 1, 0.2, 1] }}
             >
                 {currentTab === "home" && (
                     <motion.div
+                        className="md:px-20"
                         key={"landing2"}
                         initial={{ opacity: 0, y: "100vw" }}
                         animate={{ opacity: 1, y: 0 }}
@@ -326,6 +335,7 @@ function Landing() {
                         <Carousel
                             song={songsArray[carouselSong]}
                             playOnTap={playOnTap}
+                            isMobile={isMobile}
                         />
                         <Recommendations
                             active={activeTab}
@@ -336,7 +346,11 @@ function Landing() {
                             playlists={playlists}
                             selectPlaylist={selectPlaylist}
                         />
-                        <PlayNext songs={nextSongs} playOnTap={playOnTap} />
+                        <PlayNext
+                            songs={nextSongs}
+                            playOnTap={playOnTap}
+                            isMobile={isMobile}
+                        />
                     </motion.div>
                 )}
                 <audio ref={audioRef} className="hidden" src={audio}></audio>
@@ -382,8 +396,10 @@ function Landing() {
                         song={songsArray[currIndex]}
                         loggedIn={loggedIn}
                         switchTabs={switchTabs}
+                        isMobile={isMobile}
                     />
                 )}
+                <Footer />
             </motion.div>
         </AnimatePresence>
     );

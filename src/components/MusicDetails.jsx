@@ -49,14 +49,19 @@ function MusicDetails({
             return title.substring(0, limit) + "...";
         }
     }
+    function isMobile() {
+        return window.innerWidth < 768;
+    }
 
     return (
         <>
             <div className="flex items-center justify-between">
                 <div className="flex flex-col items-start justify-around px-5">
-                    <p className="text-2xl">{limitedText(title, 15)}</p>
+                    <p className="text-2xl">
+                        {isMobile() ? limitedText(title, 15) : title}
+                    </p>
                     <p className="text-base text-gray-500">
-                        {limitedText(artist, 12)}
+                        {isMobile() ? limitedText(artist, 12) : artist}
                     </p>
                 </div>
                 <div>

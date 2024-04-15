@@ -7,6 +7,7 @@ function BottomPlayer({
     title,
     artist,
     switchTabs,
+    isMobile,
 }) {
     const handlePlayPause = () => {
         musicState();
@@ -24,21 +25,25 @@ function BottomPlayer({
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, ease: [0.2, 1, 0.2, 1] }}
             exit={{ opacity: 0, y: "100vw" }}
-            className="flex items-center justify-between rounded-lg bg-black text-white p-5 mb-2 cursor-pointer"
+            className="flex items-center justify-between rounded-lg bg-black text-white p-5 mb-2 cursor-pointer py-5"
         >
             <div
                 className="song-info font-light"
                 onClick={() => switchTabs("main")}
             >
-                <h3 className="text-base">{limitedText(title, 20)}</h3>
-                <p className="text-sm">{limitedText(artist, 18)}</p>
+                <h3 className="text-base md:text-lg">
+                    {isMobile() ? limitedText(title, 20) : title}
+                </h3>
+                <p className="text-sm md:text-base">
+                    {isMobile() ? limitedText(artist, 18) : artist}
+                </p>
             </div>
 
             <button onClick={handlePlayPause}>
                 <i
                     className={`fa-solid fa-circle-${
                         isPlaying ? "pause" : "play"
-                    } text-2xl`}
+                    } text-2xl md:text-4xl`}
                 ></i>
                 {}
             </button>

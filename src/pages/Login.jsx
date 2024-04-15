@@ -1,68 +1,80 @@
 import logo from "../assets/logo.png";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
+import { PuffLoader } from "react-spinners";
 import { Link, useNavigate } from "react-router-dom";
 import {
     setPersistence,
     signInWithEmailAndPassword,
     browserLocalPersistence,
+    signInWithPopup,
+    GoogleAuthProvider,
 } from "firebase/auth";
-import { auth } from "../firebase/config";
+import { auth, provider } from "../firebase/config";
 import { useState } from "react";
-import Modal from "../components/Modal";
-
+import toast from "react-hot-toast";
 function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [showModal, setShowModal] = useState(false);
-    const [status, setStatus] = useState("");
     const [loading, setLoading] = useState(false);
     let navigate = useNavigate();
 
     async function loginWithEmail() {
         if (email === "" || password === "") {
-            setStatus("Please fill in all the fields!");
-            setShowModal(true);
-            setTimeout(() => {
-                setShowModal(false);
-            }, 1500);
+            toast("Please fill in all the fields!");
             return;
         }
         try {
+            setLoading(true);
             await setPersistence(auth, browserLocalPersistence);
             const userDetails = await signInWithEmailAndPassword(
                 auth,
                 email,
                 password
             );
-            console.log(userDetails.user);
+            // console.log(userDetails.user);
 
             navigate("/");
         } catch (error) {
             const errorCode = error.code;
             const errorMessage = error.message;
             console.log(errorCode, errorMessage);
-            setStatus(errorMessage);
+            toast.error(errorMessage);
         } finally {
             setLoading(false);
-            if (status !== "") {
-                setShowModal(true);
-                setTimeout(() => {
-                    setShowModal(false);
-                }, 1500);
+        }
+    }
+
+    async function loginWithGoogle() {
+        try {
+            setLoading(true);
+            const result = await signInWithPopup(auth, provider);
+            await setPersistence(auth, browserLocalPersistence);
+            const credential = GoogleAuthProvider.credentialFromResult(result);
+            const token = credential.accessToken;
+            const user = result.user;
+            console.log(user, token);
+            navigate("/");
+        } catch (error) {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            let email = "";
+            if (error.customData && error.customData.email) {
+                email = error.customData.email;
             }
+            const credential = GoogleAuthProvider.credentialFromError(error);
+            console.log(errorCode, errorMessage, email, credential);
+        } finally {
+            setLoading(false);
         }
     }
 
     return (
         <>
-            <AnimatePresence>
-                {showModal && <Modal>{status}</Modal>}
-            </AnimatePresence>
             <motion.div
                 initial={{ opacity: 0, y: "100vw" }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1, ease: [0.2, 1, 0.2, 1] }}
-                className="contain relative"
+                className="contain relative md:mt-10"
             >
                 <Link to="/">
                     <button className="top-10 left-5 absolute hover:opacity-75 duration-200 active:scale-90">
@@ -94,17 +106,31 @@ function Login() {
                     </div>
                 </div>
 
-                <button
-                    className="btn-main mt-5 w-full flex items-center justify-center "
-                    onClick={() => loginWithEmail()}
-                >
-                    {loading ? (
-                        <PuffLoader color="#fff" size={30} />
-                    ) : (
-                        <span className="fade">Next</span>
-                    )}
-                </button>
+                <div className="flex items-center justify-between gap-5">
+                    <button
+                        className="btn-main mt-5 w-auto flex items-center justify-center "
+                        onClick={loginWithEmail}
+                    >
+                        {loading ? (
+                            <PuffLoader color="#fff" size={30} />
+                        ) : (
+                            <span className="fade">Login</span>
+                        )}
+                    </button>
 
+                    <button
+                        className="btn-main mt-5 w-auto flex items-center justify-center "
+                        onClick={loginWithGoogle}
+                    >
+                        {loading ? (
+                            <PuffLoader color="#fff" size={30} />
+                        ) : (
+                            <span className="fade">
+                                Login with <i class="fa-brands fa-google"></i>
+                            </span>
+                        )}
+                    </button>
+                </div>
                 <div className="flex items-end justify-end">
                     <Link to="/signup">
                         <button className="mt-5 hover:opacity-70 duration-200">

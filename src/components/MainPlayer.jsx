@@ -32,7 +32,7 @@ function MainPlayer({
                 initial={{ opacity: 0, y: "100vw" }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1, ease: [0.2, 1, 0.2, 1] }}
-                className="py-10  font-poppins"
+                className="py-10  font-poppins md:px-20"
             >
                 <PlayerHeader switchTabs={switchTabs} />
                 <AlbumCover albumCover={song.bgCover} />

@@ -77,7 +77,7 @@ function SignUp() {
                 initial={{ opacity: 0, y: "100vw" }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1, ease: [0.2, 1, 0.2, 1] }}
-                className="contain relative "
+                className="contain relative md:mt-10"
             >
                 <Link to="/login">
                     <button className="top-10 left-5 absolute hover:opacity-75 duration-200 active:scale-90">
@@ -114,7 +114,7 @@ function SignUp() {
                     </div>
                 </div>
                 <button
-                    className="btn-main mt-5 w-full flex items-center justify-center "
+                    className="btn-main mt-5 w-auto flex items-center justify-center "
                     onClick={() => createAccount()}
                 >
                     {loading ? (

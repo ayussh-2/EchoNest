@@ -1,8 +1,8 @@
 import SongCardHorizontal from "./SongCardHorizontal";
-function Carousel({ song, playOnTap }) {
+function Carousel({ song, playOnTap, isMobile }) {
     return (
         <div className="relative">
-            <h2 className="font-bold text-xl capitalize mt-5">
+            <h2 className="text-xl md:text-2xl capitalize mt-5">
                 Currently Buzzing!
             </h2>
             {song && (
@@ -15,6 +15,7 @@ function Carousel({ song, playOnTap }) {
                     currentCardIndex={0}
                     playOnTap={playOnTap}
                     songId={song.songId}
+                    isMobile={isMobile}
                 />
             )}
         </div>

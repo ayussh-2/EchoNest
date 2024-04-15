@@ -14,7 +14,7 @@ function Recommendations({
         <div className="my-5">
             <div className="flex items-center justify-around gap-5 px-5 mb-10">
                 <button
-                    className={`landingLinks hover-underline-animation ${
+                    className={`landingLinks hover-underline-animation md:text-xl ${
                         active === "recomm" ? "border-b-2 border-b-black" : ""
                     }`}
                     onClick={() => setActive("recomm")}
@@ -22,7 +22,7 @@ function Recommendations({
                     Recommended
                 </button>
                 <button
-                    className={`landingLinks hover-underline-animation ${
+                    className={`landingLinks hover-underline-animation md:text-xl ${
                         active === "playlists"
                             ? "border-b-2 border-b-black"
                             : ""
@@ -34,7 +34,7 @@ function Recommendations({
             </div>
             {active === "recomm" && (
                 <motion.div
-                    className="grid grid-cols-2 gap-3 overflow-x-hidden mt-10"
+                    className="grid grid-cols-2 md:grid-cols-4 gap-3 overflow-x-hidden mt-10"
                     initial={{ opacity: 0, y: 50 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 50 }}
@@ -61,7 +61,7 @@ function Recommendations({
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 50 }}
                     transition={{ duration: 0.3 }}
-                    className="h-[600px] overflow-x-hidden overflow-scroll rounded-3xl mt-10"
+                    className="h-[600px] grid md:grid-cols-2 gap-5 overflow-x-hidden overflow-scroll rounded-3xl mt-10"
                 >
                     {/* <div className="flex justify-between items-center mb-10 px-5">
                         <p className="">Favourite Playlists</p>

@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 function SongCardHorizontal({
     title,
     artist,
@@ -5,6 +6,7 @@ function SongCardHorizontal({
     currentCardIndex,
     songId,
     playOnTap,
+    isMobile,
 }) {
     function limitedText(title, limit) {
         if (title.length <= limit) {
@@ -15,21 +17,23 @@ function SongCardHorizontal({
     }
 
     return (
-        <div
+        <motion.div
             key={currentCardIndex}
-            className="card my-10 carousel bg-black text-white rounded-3xl flex p-5 cursor-pointer hover:bg-gray-100 hover:text-black active:scale-105 transition duration-300 ease-in-out"
+            className="card my-10 carousel bg-black text-white rounded-3xl flex p-5 cursor-pointer w-full justify-between hover:shadow-2xl duration-500 hover:drop-shadow-2xl active:scale-95"
             onClick={() => playOnTap(songId)}
         >
-            <div className="w-2/3 px-2">
+            <div className=" px-2">
                 <h1 className="text-3xl capitalize">
-                    {limitedText(title, 10)}
+                    {isMobile() ? limitedText(title, 15) : title}
                 </h1>
-                <p className="text-sm uppercase">{limitedText(artist, 15)}</p>
+                <p className="text-sm uppercase">
+                    {isMobile() ? limitedText(artist, 15) : artist}
+                </p>
             </div>
-            <div className="w-1/3">
+            <div className="">
                 <div className=" rounded-md">
                     <div
-                        className="w-auto h-32 rounded-md"
+                        className="w-auto md:w-52 md:h-52 h-32 rounded-md"
                         style={{
                             backgroundImage: bgCover,
                             backgroundSize: "cover",
@@ -38,7 +42,7 @@ function SongCardHorizontal({
                     ></div>
                 </div>
             </div>
-        </div>
+        </motion.div>
     );
 }
 

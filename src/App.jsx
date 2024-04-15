@@ -1,11 +1,12 @@
 import React, { lazy, Suspense, useEffect, useState } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
-
+import { Toaster } from "react-hot-toast";
 import Loading from "./pages/Loading";
 
 import NotFound from "./pages/NotFound";
 import SearchModal from "./components/Search";
+
 // import GenRandomPlaylists from "./pages/GenRandomPlaylists";
 const Home = lazy(() => import("./pages/Landing"));
 const Login = lazy(() => import("./pages/Login"));
@@ -14,7 +15,7 @@ const Logout = lazy(() => import("./pages/Logout"));
 
 function App() {
     let location = useLocation();
-    const [isPhone, setIsPhone] = useState(false);
+    const [isPhone, setIsPhone] = useState(true);
     function isMobile() {
         if (window.innerWidth <= 768) {
             setIsPhone(true);
@@ -22,23 +23,24 @@ function App() {
             setIsPhone(false);
         }
     }
-    useEffect(() => {
-        isMobile();
-    }, []);
+    // useEffect(() => {
+    //     isMobile();
+    // }, []);
     return (
         <AnimatePresence mode="wait">
+            <Toaster position="top-right" reverseOrder={false} />
             <Suspense fallback={<Loading />}>
-                {isPhone ? (
+                {/* {isPhone ? (
                     <Routes location={location}>
-                        <Route path="/" element={<Home />} />
+                        <Route
+                            path="/"
+                            element={<Home isMobile={isMobile} />}
+                        />
                         <Route path="/login" element={<Login />} />
                         <Route path="/signup" element={<SignUp />} />
                         <Route path="/logout" element={<Logout />} />
                         <Route path="/search" element={<SearchModal />} />
-                        {/* <Route
-                            path="/randPlays"
-                            element={<GenRandomPlaylists />}
-                        /> */}
+
                         <Route path="*" element={<NotFound />} />
                     </Routes>
                 ) : (
@@ -57,7 +59,15 @@ function App() {
                             </a>
                         </footer>
                     </div>
-                )}
+                )} */}
+                <Routes location={location}>
+                    <Route path="/" element={<Home isMobile={isMobile} />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/signup" element={<SignUp />} />
+                    <Route path="/logout" element={<Logout />} />
+                    <Route path="/search" element={<SearchModal />} />
+                    <Route path="*" element={<NotFound />} />
+                </Routes>
             </Suspense>
         </AnimatePresence>
     );
